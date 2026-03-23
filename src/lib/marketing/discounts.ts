@@ -253,12 +253,12 @@ export async function validateCoupon(
     }
 
     // 10. Calculate savings
-    const savings = calculateDiscountSavings(discount as Discount, orderContext);
+    const savings = calculateDiscountSavings(discount as unknown as Discount, orderContext);
 
     // 11. Apply max discount cap if set
     let finalSavings = savings;
-    if (discount.maxDiscountAmount && savings > discount.maxDiscountAmount) {
-      finalSavings = discount.maxDiscountAmount;
+    if (discount.maxDiscountAmount && savings > Number(discount.maxDiscountAmount)) {
+      finalSavings = Number(discount.maxDiscountAmount);
       warnings.push(`الخصم محدود بحد أقصى ${discount.maxDiscountAmount} ريال`);
     }
 
@@ -266,7 +266,7 @@ export async function validateCoupon(
 
     return {
       valid: true,
-      discount,
+      discount: discount as unknown as Discount,
       savings: finalSavings,
       finalAmount: Math.max(0, finalAmount),
       errors: [],
@@ -321,7 +321,7 @@ export async function validateAutomaticDiscounts(
       }
 
       // Check minimum order amount
-      if (discount.minOrderAmount && orderContext.subtotal < discount.minOrderAmount) {
+      if (discount.minOrderAmount && orderContext.subtotal < Number(discount.minOrderAmount)) {
         continue;
       }
 
@@ -355,14 +355,14 @@ export async function validateAutomaticDiscounts(
       }
 
       // Calculate savings
-      const savings = calculateDiscountSavings(discount, orderContext);
-      const finalSavings = discount.maxDiscountAmount 
-        ? Math.min(savings, discount.maxDiscountAmount)
+      const savings = calculateDiscountSavings(discount as unknown as Discount, orderContext);
+      const finalSavings = discount.maxDiscountAmount
+        ? Math.min(savings, Number(discount.maxDiscountAmount))
         : savings;
 
       results.push({
         valid: true,
-        discount,
+        discount: discount as unknown as Discount,
         savings: finalSavings,
         finalAmount: orderContext.subtotal - finalSavings,
         errors: [],
@@ -594,31 +594,31 @@ export function calculateDiscountSavings(
 export async function createDiscount(input: CreateDiscountInput): Promise<Discount> {
   try {
     const [discount] = await db.insert(discounts).values({
-      tenantId: input.tenantId,
-      discountType: input.discountType,
-      applyingMethod: input.applyingMethod,
-      nameAr: input.nameAr,
-      nameEn: input.nameEn,
-      descriptionAr: input.descriptionAr,
+      tenant_id: input.tenantId,
+      discount_type: input.discountType,
+      applying_method: input.applyingMethod,
+      name_ar: input.nameAr,
+      name_en: input.nameEn,
+      description_ar: input.descriptionAr,
       code: input.code?.toUpperCase(),
-      value: input.value,
-      maxUses: input.maxUses,
-      usesPerCustomer: input.usesPerCustomer,
-      minOrderAmount: input.minOrderAmount,
-      maxDiscountAmount: input.maxDiscountAmount,
-      appliesTo: input.appliesTo,
-      productIds: input.productIds || [],
-      categoryIds: input.categoryIds || [],
-      customerIds: input.customerIds || [],
-      regionIds: input.regionIds || [],
-      collectionIds: input.collectionIds || [],
-      paymentMethod: input.paymentMethod,
-      startsAt: input.startsAt || new Date(),
-      endsAt: input.endsAt,
-      isCombinable: input.isCombinable ?? false,
+      value: input.value.toString(),
+      max_uses: input.maxUses,
+      uses_per_customer: input.usesPerCustomer,
+      min_order_amount: input.minOrderAmount?.toString(),
+      max_discount_amount: input.maxDiscountAmount?.toString(),
+      applies_to: input.appliesTo,
+      product_ids: input.productIds || [],
+      category_ids: input.categoryIds || [],
+      customer_ids: input.customerIds || [],
+      region_ids: input.regionIds || [],
+      collection_ids: input.collectionIds || [],
+      payment_method: input.paymentMethod,
+      starts_at: input.startsAt || new Date(),
+      ends_at: input.endsAt,
+      is_combinable: input.isCombinable ?? false,
       priority: input.priority ?? 0,
       metadata: input.metadata || {},
-    }).returning();
+    } as any).returning();
 
     return discount as unknown as Discount;
 
@@ -675,19 +675,19 @@ export async function listDiscounts(
       conditions.push(eq(discounts.discountType, options.discountType));
     }
 
-    const [discountList, total] = await Promise.all([
+    const [discountList, totalResult] = await Promise.all([
       db.query.discounts.findMany({
         where: and(...conditions),
         orderBy: (discounts, { desc }) => [desc(discounts.createdAt)],
         limit: options?.limit || 100,
         offset: options?.offset || 0,
       }),
-      db.$count(discounts, and(...conditions)),
+      db.select({ count: discounts.id }).from(discounts).where(and(...conditions)),
     ]);
 
     return {
       discounts: discountList as unknown as Discount[],
-      total,
+      total: totalResult.length,
     };
 
   } catch (error) {
@@ -711,11 +711,11 @@ export async function updateDiscount(
         nameEn: input.nameEn,
         descriptionAr: input.descriptionAr,
         code: input.code?.toUpperCase(),
-        value: input.value,
+        value: input.value?.toString(),
         maxUses: input.maxUses,
         usesPerCustomer: input.usesPerCustomer,
-        minOrderAmount: input.minOrderAmount,
-        maxDiscountAmount: input.maxDiscountAmount,
+        minOrderAmount: input.minOrderAmount?.toString(),
+        maxDiscountAmount: input.maxDiscountAmount?.toString(),
         appliesTo: input.appliesTo,
         productIds: input.productIds,
         categoryIds: input.categoryIds,
@@ -725,7 +725,6 @@ export async function updateDiscount(
         paymentMethod: input.paymentMethod,
         startsAt: input.startsAt,
         endsAt: input.endsAt,
-        isActive: input.isActive,
         isCombinable: input.isCombinable,
         priority: input.priority,
         metadata: input.metadata,
@@ -778,7 +777,25 @@ export async function toggleDiscountStatus(
   tenantId: string,
   isActive: boolean
 ): Promise<Discount | null> {
-  return updateDiscount(id, tenantId, { isActive });
+  try {
+    const [discount] = await db.update(discounts)
+      .set({
+        isActive,
+        updatedAt: new Date(),
+      })
+      .where(and(
+        eq(discounts.id, id),
+        eq(discounts.tenantId, tenantId),
+        isNull(discounts.deletedAt)
+      ))
+      .returning();
+
+    return discount as unknown as Discount | null;
+
+  } catch (error) {
+    console.error('[Discounts] Error toggling discount status:', error);
+    return null;
+  }
 }
 
 // ───────────────────────────────────────────────────────────────────────────────
@@ -802,26 +819,30 @@ export async function recordDiscountUsage(
   try {
     // Start a transaction
     await db.transaction(async (tx) => {
-      // 1. Increment usage count
+      // 1. Get current usage count and increment
+      const usageCount = await tx.select({ count: discountUsageLogs.id })
+        .from(discountUsageLogs)
+        .where(eq(discountUsageLogs.discountId, discountId));
+
       await tx.update(discounts)
         .set({
-          usedCount: db.$count(discountUsageLogs, eq(discountUsageLogs.discountId, discountId)),
+          usedCount: usageCount.length,
           updatedAt: new Date(),
         })
         .where(eq(discounts.id, discountId));
 
       // 2. Log the usage
       await tx.insert(discountUsageLogs).values({
-        tenantId,
-        discountId,
-        orderId: data.orderId,
-        orderAmount: data.orderAmount,
-        discountAmount: data.discountAmount,
-        customerId: data.customerId,
-        customerEmail: data.customerEmail,
+        tenant_id: tenantId,
+        discount_id: discountId,
+        order_id: data.orderId,
+        order_amount: data.orderAmount.toString(),
+        discount_amount: data.discountAmount.toString(),
+        customer_id: data.customerId,
+        customer_email: data.customerEmail,
         status: 'applied',
-        usedAt: new Date(),
-      });
+        used_at: new Date(),
+      } as any);
 
       // 3. Update customer usage count
       if (data.customerId) {

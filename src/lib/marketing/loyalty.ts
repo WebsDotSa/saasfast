@@ -130,14 +130,14 @@ export async function getOrCreateLoyaltyProgram(tenantId: string): Promise<Loyal
     if (!program) {
       // Create default program
       const [newProgram] = await db.insert(loyaltyPrograms).values({
-        tenantId,
-        nameAr: 'برنامج الولاء',
-        nameEn: 'Loyalty Program',
-        pointsPerSar: 1.0,
-        sarPerPoint: 0.05,
-        minPointsToRedeem: 100,
-        tiersEnabled: true,
-        tiersConfig: [
+        tenant_id: tenantId,
+        name_ar: 'برنامج الولاء',
+        name_en: 'Loyalty Program',
+        points_per_sar: (1.0).toString(),
+        sar_per_point: (0.05).toString(),
+        min_points_to_redeem: (100).toString(),
+        tiers_enabled: true,
+        tiers_config: [
           {
             id: 'bronze',
             name_ar: 'برونزي',
@@ -183,11 +183,11 @@ export async function getOrCreateLoyaltyProgram(tenantId: string): Promise<Loyal
             color: '#e5e4e2',
           },
         ],
-        rewardsEnabled: true,
-        isActive: true,
-      }).returning();
+        rewards_enabled: true,
+        is_active: true,
+      } as any).returning();
 
-      program = newProgram as unknown as LoyaltyProgram;
+      program = newProgram as any;
     }
 
     return program as unknown as LoyaltyProgram;
@@ -211,8 +211,8 @@ export async function updateLoyaltyProgram(
         nameAr: input.nameAr,
         nameEn: input.nameEn,
         descriptionAr: input.descriptionAr,
-        pointsPerSar: input.pointsPerSar,
-        sarPerPoint: input.sarPerPoint,
+        pointsPerSar: input.pointsPerSar?.toString(),
+        sarPerPoint: input.sarPerPoint?.toString(),
         minPointsToRedeem: input.minPointsToRedeem,
         pointsExpiryMonths: input.pointsExpiryMonths,
         tiersEnabled: input.tiersEnabled,
@@ -260,20 +260,20 @@ export async function getOrCreateLoyaltyAccount(
     if (!account) {
       // Create new account
       const [newAccount] = await db.insert(loyaltyAccounts).values({
-        tenantId,
-        customerId,
-        customerEmail: customerData?.email,
-        customerName: customerData?.name,
-        customerPhone: customerData?.phone,
-        currentBalance: 0,
-        lifetimeEarned: 0,
-        lifetimeRedeemed: 0,
-        lifetimeExpired: 0,
-        currentTier: 'bronze',
+        tenant_id: tenantId,
+        customer_id: customerId,
+        customer_email: customerData?.email,
+        customer_name: customerData?.name,
+        customer_phone: customerData?.phone,
+        current_balance: (0).toString(),
+        lifetime_earned: (0).toString(),
+        lifetime_redeemed: (0).toString(),
+        lifetime_expired: (0).toString(),
+        current_tier: 'bronze',
         status: 'active',
-      }).returning();
+      } as any).returning();
 
-      account = newAccount as unknown as LoyaltyAccount;
+      account = newAccount as any;
     }
 
     return account as unknown as LoyaltyAccount;
@@ -347,21 +347,21 @@ export async function awardPoints(
 
     // Create transaction
     await db.insert(loyaltyTransactions).values({
-      tenantId,
-      accountId: account.id,
+      tenant_id: tenantId,
+      account_id: account.id,
       type: 'earn',
-      points: totalPoints,
-      balanceAfter: newBalance,
-      referenceType: 'order',
-      referenceId: orderId,
-      orderAmount,
+      points: totalPoints.toString(),
+      balance_after: newBalance.toString(),
+      reference_type: 'order',
+      reference_id: orderId,
+      order_amount: orderAmount.toString(),
       description: `كسب ${totalPoints} نقطة من طلب بقيمة ${orderAmount} ريال`,
       metadata: {
         basePoints,
         tierMultiplier: multiplier,
         tier: account.currentTier,
       },
-    });
+    } as any);
 
     // Update account
     await db.update(loyaltyAccounts)
@@ -438,14 +438,14 @@ export async function redeemPoints(
 
     // Create transaction
     await db.insert(loyaltyTransactions).values({
-      tenantId,
-      accountId: account.id,
+      tenant_id: tenantId,
+      account_id: account.id,
       type: 'redeem',
-      points: -pointsToRedeem,
-      balanceAfter: newBalance,
-      monetaryValue: discount,
+      points: (-pointsToRedeem).toString(),
+      balance_after: newBalance.toString(),
+      monetary_value: discount.toString(),
       description: `استرداد ${pointsToRedeem} نقطة بخصم ${discount} ريال`,
-    });
+    } as any);
 
     // Update account
     await db.update(loyaltyAccounts)
@@ -548,13 +548,13 @@ export async function updateCustomerTier(
 
     // Record tier change
     await db.insert(loyaltyTierHistory).values({
-      tenantId,
-      accountId,
-      fromTier: account.currentTier,
-      toTier: newTier,
+      tenant_id: tenantId,
+      account_id: accountId,
+      from_tier: account.currentTier,
+      to_tier: newTier,
       reason: 'points_threshold',
-      pointsAtChange: account.currentBalance,
-    });
+      points_at_change: account.currentBalance.toString(),
+    } as any);
 
   } catch (error) {
     console.error('[Loyalty] Error updating tier:', error);
@@ -604,22 +604,22 @@ export async function createReward(input: {
 }): Promise<LoyaltyReward | null> {
   try {
     const [reward] = await db.insert(loyaltyRewards).values({
-      tenantId: input.tenantId,
-      nameAr: input.nameAr,
-      nameEn: input.nameEn,
-      descriptionAr: input.descriptionAr,
-      rewardType: input.rewardType,
-      pointsCost: input.pointsCost,
-      discountType: input.discountType,
-      discountValue: input.discountValue,
-      minOrderAmount: input.minOrderAmount,
-      validityDays: input.validityDays || 30,
-      imageUrl: input.imageUrl,
-      isActive: true,
-      redeemedCount: 0,
-      perCustomerLimit: 1,
-      sortOrder: 0,
-    }).returning();
+      tenant_id: input.tenantId,
+      name_ar: input.nameAr,
+      name_en: input.nameEn,
+      description_ar: input.descriptionAr,
+      reward_type: input.rewardType,
+      points_cost: input.pointsCost.toString(),
+      discount_type: input.discountType,
+      discount_value: input.discountValue?.toString(),
+      min_order_amount: input.minOrderAmount?.toString(),
+      validity_days: (input.validityDays || 30).toString(),
+      image_url: input.imageUrl,
+      is_active: true,
+      redeemed_count: (0).toString(),
+      per_customer_limit: 1,
+      sort_order: 0,
+    } as any).returning();
 
     return reward as unknown as LoyaltyReward;
 
@@ -677,40 +677,40 @@ export async function redeemReward(
 
     // Create transaction
     await db.insert(loyaltyTransactions).values({
-      tenantId,
-      accountId: account.id,
+      tenant_id: tenantId,
+      account_id: account.id,
       type: 'redeem',
-      points: -reward.pointsCost,
-      balanceAfter: newBalance,
-      referenceType: 'reward',
-      referenceId: rewardId,
+      points: (-reward.pointsCost).toString(),
+      balance_after: newBalance.toString(),
+      reference_type: 'reward',
+      reference_id: rewardId,
       description: `استرداد مكافأة: ${reward.nameAr}`,
-    });
+    } as any);
 
     // Generate reward code
     const rewardCode = `RWD-${Date.now()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
 
     // Create redemption record
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + reward.validityDays);
+    expiresAt.setDate(expiresAt.getDate() + (reward.validityDays ?? 30));
 
     await db.insert(loyaltyRedemptions).values({
-      tenantId,
-      accountId: account.id,
-      rewardId,
-      customerId,
-      customerEmail: account.customerEmail,
-      pointsUsed: reward.pointsCost,
-      rewardCode,
-      discountCode: reward.discountType ? `LOYALTY${reward.discountValue}` : undefined,
+      tenant_id: tenantId,
+      account_id: account.id,
+      reward_id: rewardId,
+      customer_id: customerId,
+      customer_email: account.customerEmail,
+      points_used: reward.pointsCost.toString(),
+      reward_code: rewardCode,
+      discount_code: reward.discountType ? `LOYALTY${reward.discountValue}` : undefined,
       status: 'active',
-      expiresAt,
-    });
+      expires_at: expiresAt,
+    } as any);
 
     // Update reward redeemed count
     await db.update(loyaltyRewards)
       .set({
-        redeemedCount: reward.redeemedCount + 1,
+        redeemedCount: (reward.redeemedCount ?? 0) + 1,
         updatedAt: new Date(),
       })
       .where(eq(loyaltyRewards.id, rewardId));
@@ -766,7 +766,7 @@ export function getTierProgress(
   tiersConfig: any[]
 ): { currentTier: string; nextTier?: string; pointsToNext: number; progress: number } {
   if (!tiersConfig || tiersConfig.length === 0) {
-    return { currentTier, progress: 100 };
+    return { currentTier, pointsToNext: 0, progress: 100 };
   }
 
   const currentTierData = getTierById(currentTier, tiersConfig);
@@ -778,7 +778,7 @@ export function getTierProgress(
   const nextTier = sortedTiers[currentIndex + 1];
 
   if (!nextTier) {
-    return { currentTier, progress: 100 };
+    return { currentTier, pointsToNext: 0, progress: 100 };
   }
 
   const pointsToNext = (nextTier.min_points || 0) - lifetimePoints;
