@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دليل وحدة التسويق — saasfast</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090f;--sf:#0e1117;--sf2:#131820;
+  --bd:rgba(120,140,255,.08);--bd2:rgba(120,140,255,.18);
+  --t:#dde3f5;--t2:#7a87b0;--t3:#424e70;
+  --a:#5c7cff;--a2:#7d99ff;
+  --g:#1fc87a;--gbg:rgba(31,200,122,.07);--gbd:rgba(31,200,122,.2);
+  --am:#f5a623;--abg:rgba(245,166,35,.07);--abd:rgba(245,166,35,.2);
+  --rd:#ff4d6a;--rbg:rgba(255,77,106,.07);--rbd:rgba(255,77,106,.2);
+  --pu:#9d7df5;--pbg:rgba(157,125,245,.07);--pbd:rgba(157,125,245,.2);
+  --tl:#24d4c0;--tbg:rgba(36,212,192,.07);--tbd:rgba(36,212,192,.2);
+  --font:'IBM Plex Sans Arabic',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--font);font-size:15px;line-height:1.75}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 900px 600px at 20% 0%,rgba(92,124,255,.04),transparent),radial-gradient(ellipse 600px 400px at 80% 100%,rgba(31,200,122,.03),transparent);pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,9,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:54px}
+.nav-logo{font-size:13px;font-weight:600;color:var(--t2);display:flex;align-items:center;gap:8px}
+.nav-logo .pulse{width:7px;height:7px;background:var(--g);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-links{display:flex;gap:20px;list-style:none}
+.nav-links a{color:var(--t3);text-decoration:none;font-size:12px;transition:color .2s}.nav-links a:hover{color:var(--t)}
+.nav-badge{background:var(--gbg);color:var(--g);border:1px solid var(--gbd);border-radius:20px;padding:3px 11px;font-size:11px;font-weight:600}
+
+/* LAYOUT */
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+section{padding:56px 0;border-top:1px solid var(--bd)}
+
+/* HERO */
+.hero{padding:64px 0 52px}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--sf);border:1px solid var(--bd2);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--a2);margin-bottom:22px}
+h1{font-size:42px;font-weight:700;line-height:1.15;margin-bottom:14px;background:linear-gradient(135deg,#dde3f5,var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--t2);max-width:600px;margin-bottom:36px}
+.hero-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.stat{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:18px;text-align:center}
+.stat-n{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.stat-n.g{color:var(--g)}.stat-n.a{color:var(--a2)}.stat-n.am{color:var(--am)}.stat-n.pu{color:var(--pu)}.stat-n.tl{color:var(--tl)}
+.stat-l{font-size:11px;color:var(--t3)}
+
+/* SECTION HEADERS */
+.sh{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px}
+.si{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.si.g{background:var(--gbg)}.si.a{background:rgba(92,124,255,.1)}.si.am{background:var(--abg)}.si.pu{background:var(--pbg)}.si.tl{background:var(--tbg)}.si.rd{background:var(--rbg)}
+.sl{font-size:11px;text-transform:uppercase;letter-spacing:.14em;margin-bottom:5px}
+.sl.g{color:var(--g)}.sl.a{color:var(--a2)}.sl.am{color:var(--am)}.sl.pu{color:var(--pu)}.sl.tl{color:var(--tl)}.sl.rd{color:var(--rd)}
+.sh2{font-size:22px;font-weight:700;margin-bottom:4px}
+.sh-desc{font-size:14px;color:var(--t2)}
+
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* FEATURE CARDS */
+.fc{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s}
+.fc:hover{border-color:var(--bd2)}
+.fc.g{border-color:rgba(31,200,122,.15)}
+.fc.a{border-color:rgba(92,124,255,.15)}
+.fc.am{border-color:rgba(245,166,35,.15)}
+.fc.pu{border-color:rgba(157,125,245,.15)}
+.fc h3{font-size:14px;font-weight:600;margin-bottom:7px}
+.fc p{font-size:12px;color:var(--t3);line-height:1.6;margin-bottom:12px}
+.fi{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--t2);margin-bottom:5px}
+.fi::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0;margin-top:1px}
+.ftag{font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:4px;padding:2px 6px;color:var(--t3);margin-top:10px;display:inline-block}
+
+/* MIGRATION BLOCKS */
+.migration{background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.mh{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd)}
+.mn{width:32px;height:32px;background:var(--a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0}
+.mn.g{background:var(--g)}.mn.am{background:var(--am)}.mn.pu{background:var(--pu)}.mn.tl{background:var(--tl)}
+.mt{font-size:14px;font-weight:600;flex:1}
+.mb{font-size:12px;color:var(--t3)}
+
+/* CODE BLOCKS */
+.code{background:#050810;border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:16px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.85;overflow-x:auto;margin:12px 0}
+.cm{color:var(--t3)}.kw{color:var(--a2)}.st{color:var(--tl)}.fn{color:var(--am)}.nx{color:var(--t)}.gt{color:var(--g)}.rd{color:var(--rd)}
+
+/* DISCOUNT TYPES GRID */
+.dtype{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.dt{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s}
+.dt:hover{border-color:var(--bd2);transform:translateY(-1px)}
+.dt-icon{font-size:20px;margin-bottom:8px}
+.dt-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.dt-desc{font-size:11px;color:var(--t3);line-height:1.5}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline::before{content:'';position:absolute;right:19px;top:22px;bottom:22px;width:1px;background:linear-gradient(to bottom,var(--a),transparent);opacity:.15}
+.tli{display:grid;grid-template-columns:1fr 42px;gap:16px;align-items:start;padding-bottom:20px}
+.tlc{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px}
+.tlt{font-size:10px;font-family:var(--mono);color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.tlh{font-size:15px;font-weight:700;margin-bottom:8px}
+.tld{font-size:13px;color:var(--t2);margin-bottom:12px}
+.tldot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--bd);background:var(--sf2);flex-shrink:0;margin-top:14px}
+.tldot.now{border-color:var(--a);background:rgba(92,124,255,.12)}
+.task{display:flex;align-items:center;gap:8px;font-size:12px;padding:5px 9px;border-radius:6px;background:rgba(255,255,255,.02);margin-bottom:4px}
+.ti{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.ti.todo{background:var(--a);color:white}
+.ti.new{background:var(--g);color:white}
+.ti.db{background:var(--am);color:black}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+.tbl th{text-align:right;padding:9px 12px;font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--bd)}
+.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+.badge.g{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.badge.a{background:rgba(92,124,255,.1);color:var(--a2);border-color:rgba(92,124,255,.2)}
+.badge.am{background:var(--abg);color:var(--am);border-color:var(--abd)}
+.badge.rd{background:var(--rbg);color:var(--rd);border-color:var(--rbd)}
+
+/* ALERT */
+.alert{border-radius:12px;padding:16px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start;font-size:13px}
+.alert.g{background:var(--gbg);border:1px solid var(--gbd);color:var(--g)}
+.alert.am{background:var(--abg);border:1px solid var(--abd);color:var(--am)}
+.alert.a{background:rgba(92,124,255,.07);border:1px solid rgba(92,124,255,.2);color:var(--a2)}
+
+/* FILE PATH */
+.path{font-family:var(--mono);font-size:11px;background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:5px;padding:2px 7px;color:var(--tl)}
+
+footer{padding:36px 0;border-top:1px solid var(--bd)}
+.fi2{display:flex;justify-content:space-between;align-items:center;color:var(--t3);font-size:12px}
+
+@media(max-width:900px){
+  h1{font-size:30px}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .g4,.g3,.g2{grid-template-columns:1fr}
+  .dtype{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><div class="pulse"></div>saasfast — دليل وحدة التسويق</div>
+    <ul class="nav-links">
+      <li><a href="#features">الميزات</a></li>
+      <li><a href="#db">قاعدة البيانات</a></li>
+      <li><a href="#discounts">الخصومات</a></li>
+      <li><a href="#campaigns">الحملات</a></li>
+      <li><a href="#loyalty">الولاء</a></li>
+      <li><a href="#affiliate">الإحالة</a></li>
+      <li><a href="#plan">خطة التنفيذ</a></li>
+    </ul>
+    <span class="nav-badge">Marketing Module</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-badge">
+      <div style="width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 2s ease-in-out infinite"></div>
+      مُلهَم من زد — مرجع كامل للتنفيذ في saasfast
+    </div>
+    <h1>وحدة التسويق الكاملة<br>لمنصة SaaS</h1>
+    <p class="hero-sub">كل ما تحتاجه لبناء نظام تسويق احترافي: خصومات، حملات، ولاء عملاء، تسويق بالعمولة — مُعزَّز بالذكاء الاصطناعي ومبني على الـ Module Registry الموجود.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n g">7</div><div class="stat-l">أقسام رئيسية</div></div>
+      <div class="stat"><div class="stat-n a">6</div><div class="stat-l">Migrations جديدة</div></div>
+      <div class="stat"><div class="stat-n am">18+</div><div class="stat-l">API Routes</div></div>
+      <div class="stat"><div class="stat-n pu">4</div><div class="stat-l">أسابيع تنفيذ</div></div>
+      <div class="stat"><div class="stat-n tl">∞</div><div class="stat-l">قابل لأي مجال</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY MARKETING -->
+<section id="features">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si g">🎯</div>
+      <div>
+        <div class="sl g">لماذا التسويق أساسي</div>
+        <div class="sh2">7 أقسام تحتاجها كل منصة SaaS</div>
+        <div class="sh-desc">التسويق ليس إضافة — هو ما يجعل عملاءك يدفعون أكثر ويبقون أطول. كل قسم هنا مُصمَّم كـ module مستقل في المنصة.</div>
+      </div>
+    </div>
+
+    <div class="g4" style="margin-bottom:14px">
+      <div class="fc g">
+        <div style="font-size:22px;margin-bottom:10px">🏷️</div>
+        <h3>الخصومات والكوبونات</h3>
+        <p>محرك الشراء الأول — خصم مخصص، نسبة، قيمة ثابتة، شحن مجاني</p>
+        <div class="fi">خصم تلقائي بدون كود</div>
+        <div class="fi">كوبون يدخله العميل</div>
+        <div class="fi">شروط: حد أدنى للطلب</div>
+        <div class="fi">تاريخ بدء وانتهاء</div>
+        <span class="ftag">migration_030_discounts</span>
+      </div>
+
+      <div class="fc a">
+        <div style="font-size:22px;margin-bottom:10px">📧</div>
+        <h3>الحملات التسويقية</h3>
+        <p>SMS + واتساب + إيميل — وصول مباشر لعملائك في أي وقت</p>
+        <div class="fi">قوالب رسائل جاهزة</div>
+        <div class="fi">جدولة زمنية</div>
+        <div class="fi">تتبع معدل الفتح والنقر</div>
+        <div class="fi">تقسيم الجمهور</div>
+        <span class="ftag">migration_031_campaigns</span>
+      </div>
+
+      <div class="fc am">
+        <div style="font-size:22px;margin-bottom:10px">⭐</div>
+        <h3>برنامج الولاء</h3>
+        <p>نقاط على كل شراء — العملاء يعودون لاسترداد نقاطهم</p>
+        <div class="fi">نقاط على كل ريال مصروف</div>
+        <div class="fi">مستويات (برونز، فضة، ذهب)</div>
+        <div class="fi">استرداد نقاط كخصم</div>
+        <div class="fi">هدايا عند الوصول لمستوى</div>
+        <span class="ftag">migration_032_loyalty</span>
+      </div>
+
+      <div class="fc pu">
+        <div style="font-size:22px;margin-bottom:10px">🤝</div>
+        <h3>التسويق بالعمولة</h3>
+        <p>المسوِّقون يجلبون عملاء — تدفع عمولة فقط عند البيع</p>
+        <div class="fi">رابط إحالة مخصص</div>
+        <div class="fi">نسبة عمولة مرنة</div>
+        <div class="fi">لوحة تحكم للمسوِّق</div>
+        <div class="fi">تحويل عمولات تلقائي</div>
+        <span class="ftag">migration_033_affiliates</span>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="fc">
+        <div style="font-size:22px;margin-bottom:10px">📦</div>
+        <h3>الحزم التسويقية</h3>
+        <p>اشترِ منتجين وادفع ثمن واحد — يرفع متوسط قيمة الطلب</p>
+        <div class="fi">اشتر X واحصل على Y</div>
+        <div class="fi">مجموعة منتجات بسعر خاص</div>
+        <div class="fi">عرض محدد بالوقت</div>
+        <span class="ftag">migration_030 (discounts)</span>
+      </div>
+
+      <div class="fc">
+        <div style="font-size:22px;margin-bottom:10px">🎁</div>
+        <h3>برنامج قطاف (STC)</h3>
+        <p>تكامل مع أكبر برامج الولاء السعودية — 15+ مليون مستخدم</p>
+        <div class="fi">ربط بـ Qitaf API</div>
+        <div class="fi">كسب نقاط عند الشراء</div>
+        <div class="fi">استرداد نقاط كدفعة</div>
+        <span class="ftag">migration_034_integrations</span>
+      </div>
+
+      <div class="fc">
+        <div style="font-size:22px;margin-bottom:10px">📊</div>
+        <h3>تحليلات التسويق</h3>
+        <p>معدل تحويل الحملات، أفضل الكوبونات، ROI لكل قناة</p>
+        <div class="fi">نسبة استخدام كل كوبون</div>
+        <div class="fi">إيرادات من الإحالات</div>
+        <div class="fi">أداء الحملات مقارنةً</div>
+        <span class="ftag">dashboard/analytics (موجود)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATABASE -->
+<section id="db">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si am">🗄️</div>
+      <div>
+        <div class="sl am">قاعدة البيانات</div>
+        <div class="sh2">6 Migrations — البنية الكاملة</div>
+        <div class="sh-desc">كل جدول معزول بـ RLS لكل tenant. يُضاف لـ supabase/migrations/ ويُطبَّق بالترتيب.</div>
+      </div>
+    </div>
+
+    <div class="migration">
+      <div class="mh">
+        <div class="mn">030</div>
+        <div>
+          <div class="mt">030_discounts.sql — الخصومات والكوبونات</div>
+          <div class="mb">الأساس — يُبنى عليه كل شيء آخر</div>
+        </div>
+        <span class="badge g">أولوية قصوى</span>
+      </div>
+      <div class="code"><span class="cm">-- الجدول الرئيسي للخصومات</span>
+<span class="kw">CREATE TABLE</span> discounts (
+  id          UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  tenant_id   UUID <span class="kw">NOT NULL REFERENCES</span> tenants(id) <span class="kw">ON DELETE CASCADE</span>,
+
+  <span class="cm">-- نوع الخصم</span>
+  discount_type  VARCHAR(30) <span class="kw">NOT NULL</span>,
+  <span class="cm">-- percentage | fixed_amount | free_shipping | buy_x_get_y</span>
+
+  <span class="cm">-- طريقة التطبيق</span>
+  applying_method VARCHAR(20) <span class="kw">DEFAULT</span> <span class="st">'automatic'</span>,
+  <span class="cm">-- automatic | coupon_code</span>
+
+  <span class="cm">-- التفاصيل</span>
+  name_ar        VARCHAR(200) <span class="kw">NOT NULL</span>,
+  code           VARCHAR(50),             <span class="cm">-- كود الكوبون (إن وُجد)</span>
+  value          NUMERIC(10,2) <span class="kw">NOT NULL</span>,   <span class="cm">-- القيمة أو النسبة</span>
+  max_uses       INTEGER,                 <span class="cm">-- NULL = غير محدود</span>
+  used_count     INTEGER <span class="kw">DEFAULT</span> 0,
+
+  <span class="cm">-- الشروط</span>
+  min_order_amount NUMERIC(10,2),
+  applies_to     VARCHAR(20) <span class="kw">DEFAULT</span> <span class="st">'all'</span>,
+  <span class="cm">-- all | specific_products | specific_categories</span>
+  product_ids    UUID[] <span class="kw">DEFAULT</span> <span class="st">'{}'</span>,
+  category_ids   UUID[] <span class="kw">DEFAULT</span> <span class="st">'{}'</span>,
+
+  <span class="cm">-- الوقت</span>
+  starts_at      TIMESTAMPTZ,
+  ends_at        TIMESTAMPTZ,
+  is_active      BOOLEAN <span class="kw">DEFAULT</span> true,
+  created_at     TIMESTAMPTZ <span class="kw">DEFAULT NOW</span>()
+);
+
+<span class="kw">ALTER TABLE</span> discounts <span class="kw">ENABLE ROW LEVEL SECURITY</span>;
+<span class="kw">CREATE POLICY</span> discounts_isolation <span class="kw">ON</span> discounts <span class="kw">FOR ALL USING</span>
+  (tenant_id = current_setting(<span class="st">'app.current_tenant_id'</span>)::UUID);</div>
+    </div>
+
+    <div class="migration">
+      <div class="mh">
+        <div class="mn am">031</div>
+        <div>
+          <div class="mt">031_campaigns.sql — الحملات التسويقية</div>
+          <div class="mb">SMS + واتساب + إيميل</div>
+        </div>
+        <span class="badge am">أولوية عالية</span>
+      </div>
+      <div class="code"><span class="kw">CREATE TABLE</span> marketing_campaigns (
+  id              UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  tenant_id       UUID <span class="kw">NOT NULL REFERENCES</span> tenants(id) <span class="kw">ON DELETE CASCADE</span>,
+  title           VARCHAR(200) <span class="kw">NOT NULL</span>,
+  channel         VARCHAR(20) <span class="kw">NOT NULL</span>, <span class="cm">-- sms | whatsapp | email | all</span>
+  goal            VARCHAR(50),             <span class="cm">-- promotion | retention | re_engagement</span>
+  status          VARCHAR(20) <span class="kw">DEFAULT</span> <span class="st">'draft'</span>,
+  <span class="cm">-- draft | scheduled | running | completed | failed</span>
+  audience_filter JSONB <span class="kw">DEFAULT</span> <span class="st">'{}'</span>,  <span class="cm">-- فلاتر الجمهور</span>
+  message_ar      TEXT <span class="kw">NOT NULL</span>,
+  scheduled_at    TIMESTAMPTZ,
+  sent_count      INTEGER <span class="kw">DEFAULT</span> 0,
+  opened_count    INTEGER <span class="kw">DEFAULT</span> 0,
+  clicked_count   INTEGER <span class="kw">DEFAULT</span> 0,
+  created_at      TIMESTAMPTZ <span class="kw">DEFAULT NOW</span>()
+);</div>
+    </div>
+
+    <div class="migration">
+      <div class="mh">
+        <div class="mn pu">032</div>
+        <div>
+          <div class="mt">032_loyalty.sql — برنامج الولاء</div>
+          <div class="mb">نقاط + مستويات + استرداد</div>
+        </div>
+        <span class="badge a">مهم</span>
+      </div>
+      <div class="code"><span class="kw">CREATE TABLE</span> loyalty_programs (
+  id               UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  tenant_id        UUID <span class="kw">REFERENCES</span> tenants(id),
+  name_ar          VARCHAR(200) <span class="kw">NOT NULL</span>,
+  points_per_sar   NUMERIC(10,4) <span class="kw">DEFAULT</span> 1, <span class="cm">-- نقطة لكل ريال</span>
+  sar_per_point    NUMERIC(10,4) <span class="kw">DEFAULT</span> 0.05,<span class="cm">-- قيمة النقطة عند الاسترداد</span>
+  is_active        BOOLEAN <span class="kw">DEFAULT</span> true
+);
+
+<span class="kw">CREATE TABLE</span> loyalty_transactions (
+  id            UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  tenant_id     UUID <span class="kw">REFERENCES</span> tenants(id),
+  customer_id   UUID,
+  type          VARCHAR(20), <span class="cm">-- earn | redeem | expire | adjust</span>
+  points        INTEGER <span class="kw">NOT NULL</span>,
+  balance_after INTEGER <span class="kw">NOT NULL</span>,
+  reference_id  UUID,       <span class="cm">-- معرف الطلب المرتبط</span>
+  notes         TEXT,
+  created_at    TIMESTAMPTZ <span class="kw">DEFAULT NOW</span>()
+);</div>
+    </div>
+
+    <div class="migration">
+      <div class="mh">
+        <div class="mn tl">033</div>
+        <div>
+          <div class="mt">033_affiliates.sql — التسويق بالعمولة</div>
+          <div class="mb">روابط إحالة + تتبع + عمولات</div>
+        </div>
+        <span class="badge a">مهم</span>
+      </div>
+      <div class="code"><span class="kw">CREATE TABLE</span> affiliates (
+  id            UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  tenant_id     UUID <span class="kw">REFERENCES</span> tenants(id),
+  name          VARCHAR(200) <span class="kw">NOT NULL</span>,
+  email         VARCHAR(255),
+  referral_code VARCHAR(20) <span class="kw">UNIQUE NOT NULL</span>,
+  commission    NUMERIC(5,2) <span class="kw">DEFAULT</span> 10, <span class="cm">-- نسبة العمولة %</span>
+  status        VARCHAR(20) <span class="kw">DEFAULT</span> <span class="st">'active'</span>,
+  total_earned  NUMERIC(10,2) <span class="kw">DEFAULT</span> 0,
+  pending_payout NUMERIC(10,2) <span class="kw">DEFAULT</span> 0,
+  created_at    TIMESTAMPTZ <span class="kw">DEFAULT NOW</span>()
+);
+
+<span class="kw">CREATE TABLE</span> affiliate_conversions (
+  id            UUID <span class="kw">PRIMARY KEY DEFAULT</span> uuid_generate_v4(),
+  affiliate_id  UUID <span class="kw">REFERENCES</span> affiliates(id),
+  tenant_id     UUID <span class="kw">REFERENCES</span> tenants(id),
+  order_id      UUID,
+  commission    NUMERIC(10,2),
+  status        VARCHAR(20) <span class="kw">DEFAULT</span> <span class="st">'pending'</span>,
+  <span class="cm">-- pending | approved | paid | rejected</span>
+  created_at    TIMESTAMPTZ <span class="kw">DEFAULT NOW</span>()
+);</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCOUNTS DETAIL -->
+<section id="discounts">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si rd">🏷️</div>
+      <div>
+        <div class="sl rd">الخصومات — الأساس</div>
+        <div class="sh2">أنواع الخصومات الستة</div>
+        <div class="sh-desc">مُستوحاة من صفحة "إنشاء خصم" في زد — مرجع <span class="path">docs/marketing-reference/07_discount_types.png</span></div>
+      </div>
+    </div>
+
+    <div class="dtype">
+      <div class="dt">
+        <div class="dt-icon">📊</div>
+        <div class="dt-title">خصم مخصص</div>
+        <div class="dt-desc">نسبة % أو قيمة ثابتة على الطلب كله أو منتجات محددة</div>
+      </div>
+      <div class="dt">
+        <div class="dt-icon">🚚</div>
+        <div class="dt-title">الشحن المجاني</div>
+        <div class="dt-desc">إلغاء رسوم الشحن تلقائياً عند تجاوز حد أدنى</div>
+      </div>
+      <div class="dt">
+        <div class="dt-icon">👥</div>
+        <div class="dt-title">خصم لمجموعة عملاء</div>
+        <div class="dt-desc">حصري لعملاء معينين (VIP أو شريحة محددة)</div>
+      </div>
+      <div class="dt">
+        <div class="dt-icon">📱</div>
+        <div class="dt-title">خصم لتصنيفات محددة</div>
+        <div class="dt-desc">خصم على قسم كامل — مثل "20% على الملابس"</div>
+      </div>
+      <div class="dt">
+        <div class="dt-icon">📍</div>
+        <div class="dt-title">خصم لمنطقة جغرافية</div>
+        <div class="dt-desc">عروض خاصة بمناطق أو دول محددة</div>
+      </div>
+      <div class="dt">
+        <div class="dt-icon">💳</div>
+        <div class="dt-title">خصم لوسائل دفع محددة</div>
+        <div class="dt-desc">مثال: 5% إضافي عند الدفع بـ Mada أو STC Pay</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:12px;font-weight:600">📄 API Routes المطلوبة</p>
+        <div class="code"><span class="cm">app/api/discounts/</span>
+├── <span class="kw">route.ts</span>         <span class="cm">GET list + POST create</span>
+├── <span class="kw">[id]/route.ts</span>    <span class="cm">GET + PATCH + DELETE</span>
+├── <span class="kw">validate/route.ts</span> <span class="cm">POST — تحقق الكود</span>
+└── <span class="kw">apply/route.ts</span>   <span class="cm">POST — تطبيق الخصم</span></div>
+
+        <p style="font-size:13px;color:var(--t2);margin:14px 0 8px;font-weight:600">📄 صفحات Dashboard</p>
+        <div class="code"><span class="cm">app/(tenant)/dashboard/marketing/</span>
+├── <span class="kw">page.tsx</span>              <span class="cm">نظرة عامة</span>
+├── <span class="kw">discounts/page.tsx</span>    <span class="cm">قائمة الخصومات</span>
+├── <span class="kw">discounts/new/page.tsx</span><span class="cm">إنشاء خصم جديد</span>
+└── <span class="kw">discounts/[id]/page.tsx</span><span class="cm">تعديل خصم</span></div>
+      </div>
+
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:12px;font-weight:600">🔑 منطق التحقق من الكوبون</p>
+        <div class="code"><span class="cm">// src/lib/discounts/validate.ts</span>
+<span class="kw">export async function</span> <span class="fn">validateCoupon</span>(
+  code: string,
+  tenantId: string,
+  orderData: { amount: number; products: string[] }
+) {
+  <span class="cm">// 1. تحقق الوجود والنشاط</span>
+  <span class="kw">const</span> discount = <span class="kw">await</span> supabase
+    .from(<span class="st">'discounts'</span>)
+    .select(<span class="st">'*'</span>)
+    .eq(<span class="st">'tenant_id'</span>, tenantId)
+    .eq(<span class="st">'code'</span>, code.toUpperCase())
+    .eq(<span class="st">'is_active'</span>, true)
+    .single()
+
+  <span class="cm">// 2. تحقق انتهاء الصلاحية</span>
+  <span class="kw">if</span> (discount.ends_at && <span class="kw">new</span> Date() > <span class="kw">new</span> Date(discount.ends_at))
+    <span class="kw">throw new</span> Error(<span class="st">'انتهت صلاحية الكوبون'</span>)
+
+  <span class="cm">// 3. تحقق الحد الأقصى للاستخدام</span>
+  <span class="kw">if</span> (discount.max_uses && discount.used_count >= discount.max_uses)
+    <span class="kw">throw new</span> Error(<span class="st">'تجاوز الكوبون الحد الأقصى'</span>)
+
+  <span class="cm">// 4. تحقق الحد الأدنى للطلب</span>
+  <span class="kw">if</span> (discount.min_order_amount && orderData.amount < discount.min_order_amount)
+    <span class="kw">throw new</span> Error(<span class="st">`الحد الأدنى للطلب ${discount.min_order_amount} ر.س`</span>)
+
+  <span class="cm">// 5. احسب قيمة الخصم</span>
+  <span class="kw">return</span> { discount, savings: <span class="fn">calculateSavings</span>(discount, orderData) }
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPAIGNS -->
+<section id="campaigns">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si a">📧</div>
+      <div>
+        <div class="sl a">الحملات التسويقية</div>
+        <div class="sh2">SMS + واتساب + إيميل</div>
+        <div class="sh-desc">مرجع: <span class="path">docs/marketing-reference/02_campaigns_locked.png</span> — في زد هذه الميزة مقيّدة بالخطة المدفوعة. تطبّقها نفس الفكرة في saasfast.</div>
+      </div>
+    </div>
+
+    <div class="alert a">
+      <span>💡</span>
+      <span>في صور زد — الحملات التسويقية مقفلة إلا في "خطة النمو". هذا نموذج SaaS ممتاز: الميزة موجودة لكن محمية بخطة مدفوعة. نفس المنطق يُطبَّق في saasfast عبر <strong>canAccessFeature('marketing_campaigns')</strong>.</span>
+    </div>
+
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">هيكل الحملة</p>
+        <div class="code"><span class="cm">// إنشاء حملة جديدة</span>
+<span class="kw">POST</span> /api/marketing/campaigns
+
+{
+  title: <span class="st">"عرض رمضان الكريم"</span>,
+  channel: <span class="st">"whatsapp"</span>,        <span class="cm">// أو sms, email</span>
+  goal: <span class="st">"promotion"</span>,
+  message_ar: <span class="st">"عزيزنا العميل..."</span>,
+  audience_filter: {
+    last_purchase_days: 90,   <span class="cm">// اشترى آخر 90 يوم</span>
+    min_orders: 2,            <span class="cm">// طلب مرتين على الأقل</span>
+  },
+  scheduled_at: <span class="st">"2026-03-25T09:00:00Z"</span>
+}</div>
+      </div>
+
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">تكامل الإرسال (WhatsApp/SMS)</p>
+        <div class="code"><span class="cm">// src/lib/marketing/send-campaign.ts</span>
+<span class="kw">import</span> { whatsappClient } <span class="kw">from</span> <span class="st">'@/lib/whatsapp'</span>
+
+<span class="kw">export async function</span> <span class="fn">executeCampaign</span>(campaignId: string) {
+  <span class="cm">// 1. جلب الجمهور حسب الفلتر</span>
+  <span class="kw">const</span> customers = <span class="kw">await</span> <span class="fn">getFilteredCustomers</span>(campaign)
+
+  <span class="cm">// 2. إرسال دفعة (Batch)</span>
+  <span class="kw">const</span> results = <span class="kw">await</span> Promise.allSettled(
+    customers.map(c => <span class="fn">sendMessage</span>(campaign.channel, c, campaign.message_ar))
+  )
+
+  <span class="cm">// 3. تحديث الإحصائيات</span>
+  <span class="kw">await</span> supabase.from(<span class="st">'marketing_campaigns'</span>).update({
+    sent_count: results.filter(r => r.status === <span class="st">'fulfilled'</span>).length,
+    status: <span class="st">'completed'</span>
+  }).eq(<span class="st">'id'</span>, campaignId)
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOYALTY -->
+<section id="loyalty">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si am">⭐</div>
+      <div>
+        <div class="sl am">برنامج الولاء</div>
+        <div class="sh2">نقاط تجمع — نقاط تُسترد</div>
+        <div class="sh-desc">مرجع: <span class="path">docs/marketing-reference/08_loyalty_program.png</span> — "88% من العملاء يعودون عند وجود برنامج ولاء"</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">منطق كسب النقاط</p>
+        <div class="code"><span class="cm">// src/lib/marketing/loyalty.ts</span>
+<span class="kw">export async function</span> <span class="fn">awardPoints</span>(tenantId: string, customerId: string, orderId: string, orderAmount: number) {
+  <span class="kw">const</span> program = <span class="kw">await</span> <span class="fn">getLoyaltyProgram</span>(tenantId)
+  <span class="kw">if</span> (!program?.is_active) <span class="kw">return</span>
+
+  <span class="kw">const</span> points = Math.floor(orderAmount * program.points_per_sar)
+
+  <span class="cm">// احسب الرصيد الجديد</span>
+  <span class="kw">const</span> currentBalance = <span class="kw">await</span> <span class="fn">getCustomerPoints</span>(tenantId, customerId)
+  <span class="kw">const</span> newBalance = currentBalance + points
+
+  <span class="cm">// سجّل المعاملة</span>
+  <span class="kw">await</span> supabase.from(<span class="st">'loyalty_transactions'</span>).insert({
+    tenant_id: tenantId,
+    customer_id: customerId,
+    type: <span class="st">'earn'</span>,
+    points,
+    balance_after: newBalance,
+    reference_id: orderId
+  })
+
+  <span class="kw">return</span> { points, newBalance }
+}
+
+<span class="cm">// يُستدعى من webhook الدفع الناجح</span>
+<span class="cm">// في: app/api/payments/webhook/route.ts</span></div>
+      </div>
+
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">استرداد النقاط عند الدفع</p>
+        <div class="code"><span class="kw">export async function</span> <span class="fn">redeemPoints</span>(
+  tenantId: string,
+  customerId: string,
+  pointsToRedeem: number
+) {
+  <span class="kw">const</span> program = <span class="kw">await</span> <span class="fn">getLoyaltyProgram</span>(tenantId)
+  <span class="kw">const</span> balance = <span class="kw">await</span> <span class="fn">getCustomerPoints</span>(tenantId, customerId)
+
+  <span class="kw">if</span> (balance < pointsToRedeem)
+    <span class="kw">throw new</span> Error(<span class="st">'رصيد النقاط غير كافٍ'</span>)
+
+  <span class="cm">// قيمة الخصم بالريال</span>
+  <span class="kw">const</span> discount = pointsToRedeem * program.sar_per_point
+
+  <span class="kw">await</span> supabase.from(<span class="st">'loyalty_transactions'</span>).insert({
+    type: <span class="st">'redeem'</span>,
+    points: -pointsToRedeem,
+    balance_after: balance - pointsToRedeem,
+  })
+
+  <span class="kw">return</span> { discount } <span class="cm">// يُطبَّق كخصم على الطلب</span>
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AFFILIATE -->
+<section id="affiliate">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si pu">🤝</div>
+      <div>
+        <div class="sl pu">التسويق بالعمولة</div>
+        <div class="sh2">مسوِّقون يجلبون — تدفع عند البيع فقط</div>
+        <div class="sh-desc">مرجع: <span class="path">docs/marketing-reference/03_affiliate_locked.png</span> — مُقيَّدة في زد بالخطة. يُطبَّق نفس النموذج في saasfast.</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">توليد رابط الإحالة</p>
+        <div class="code"><span class="cm">// الرابط يبدو هكذا:</span>
+<span class="cm">// mystore.saasfast.com/?ref=AHMED2025</span>
+
+<span class="kw">export function</span> <span class="fn">generateAffiliateLink</span>(storeUrl: string, code: string) {
+  <span class="kw">return</span> <span class="st">`${storeUrl}?ref=${code}`</span>
+}
+
+<span class="cm">// في middleware.ts — التقاط الرابط:</span>
+<span class="kw">const</span> ref = request.nextUrl.searchParams.get(<span class="st">'ref'</span>)
+<span class="kw">if</span> (ref) {
+  response.cookies.set(<span class="st">'affiliate_ref'</span>, ref, {
+    maxAge: 30 * 24 * 60 * 60 <span class="cm">// 30 يوم</span>
+  })
+}</div>
+      </div>
+
+      <div>
+        <p style="font-size:13px;color:var(--t2);margin-bottom:10px;font-weight:600">تسجيل التحويل عند الشراء</p>
+        <div class="code"><span class="cm">// في: app/api/payments/webhook/route.ts</span>
+<span class="cm">// بعد نجاح الدفع:</span>
+<span class="kw">const</span> affiliateCode = cookies.get(<span class="st">'affiliate_ref'</span>)
+<span class="kw">if</span> (affiliateCode) {
+  <span class="kw">const</span> affiliate = <span class="kw">await</span> supabase
+    .from(<span class="st">'affiliates'</span>)
+    .select(<span class="st">'*'</span>)
+    .eq(<span class="st">'referral_code'</span>, affiliateCode)
+    .eq(<span class="st">'tenant_id'</span>, tenantId)
+    .single()
+
+  <span class="kw">if</span> (affiliate) {
+    <span class="kw">const</span> commission = orderAmount * (affiliate.commission / 100)
+    <span class="kw">await</span> supabase.from(<span class="st">'affiliate_conversions'</span>).insert({
+      affiliate_id: affiliate.id,
+      order_id: orderId,
+      commission,
+      status: <span class="st">'pending'</span> <span class="cm">// يُوافَق يدوياً أو بعد فترة</span>
+    })
+  }
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI IN MARKETING -->
+<section>
+  <div class="wrap">
+    <div class="sh">
+      <div class="si tl">🤖</div>
+      <div>
+        <div class="sl tl">الذكاء الاصطناعي في التسويق</div>
+        <div class="sh2">AI يكتب الحملات ويقترح الخصومات</div>
+        <div class="sh-desc">يُبنى فوق lib/ai/index.ts الموجود — 3 استخدامات فورية.</div>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="fc" style="border-color:var(--tbd)">
+        <div style="font-size:20px;margin-bottom:9px">✍️</div>
+        <h3>كتابة رسالة الحملة</h3>
+        <p>المستخدم يكتب "عرض رمضاني على العبايات" — الـ AI يكتب رسالة واتساب كاملة</p>
+        <div class="code" style="margin:8px 0"><span class="fn">generateCampaignMessage</span>(topic, audience)</div>
+        <div class="fi">يراعي نبرة العلامة التجارية</div>
+        <div class="fi">يضيف call-to-action</div>
+      </div>
+
+      <div class="fc" style="border-color:var(--tbd)">
+        <div style="font-size:20px;margin-bottom:9px">💡</div>
+        <h3>اقتراح نسبة الخصم</h3>
+        <p>بناءً على بيانات المبيعات والمنافسة يقترح الخصم الأمثل</p>
+        <div class="code" style="margin:8px 0"><span class="fn">suggestDiscountRate</span>(productId, salesData)</div>
+        <div class="fi">تحليل أداء الخصومات السابقة</div>
+        <div class="fi">مقارنة بالمنافسين</div>
+      </div>
+
+      <div class="fc" style="border-color:var(--tbd)">
+        <div style="font-size:20px;margin-bottom:9px">🎯</div>
+        <h3>تقسيم الجمهور الذكي</h3>
+        <p>AI يحدد أفضل فئة مستهدفة لكل حملة بناءً على سلوك الشراء</p>
+        <div class="code" style="margin:8px 0"><span class="fn">suggestAudience</span>(campaignGoal, tenantData)</div>
+        <div class="fi">عملاء على وشك الهجران</div>
+        <div class="fi">عملاء VIP فقط</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan">
+  <div class="wrap">
+    <div class="sh">
+      <div class="si g">🗓️</div>
+      <div>
+        <div class="sl g">خطة التنفيذ</div>
+        <div class="sh2">4 أسابيع — من الأساس للإطلاق</div>
+        <div class="sh-desc">ترتيب مدروس — كل أسبوع يُكمل السابق ويُهيئ للتالي.</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tli now">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 1 — الأساس</div>
+          <div class="tlh">Migrations + API الخصومات</div>
+          <div class="tld">هذا هو الأساس الذي تُبنى عليه كل الميزات الأخرى.</div>
+          <div class="task"><div class="ti db">DB</div><span>تطبيق 030_discounts.sql في Supabase</span></div>
+          <div class="task"><div class="ti new">✓</div><span>app/api/discounts/ — CRUD كامل</span></div>
+          <div class="task"><div class="ti new">✓</div><span>app/api/discounts/validate/route.ts</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>dashboard/marketing/discounts/ — قائمة + إنشاء</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>صفحة إنشاء خصم (مرجع: zid_create_discount_reference.html)</span></div>
+        </div>
+        <div class="tldot now">🏷️</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 2 — الولاء</div>
+          <div class="tlh">برنامج النقاط + الحملات</div>
+          <div class="tld">ربط النقاط بـ webhook الدفع الموجود — كل دفعة ناجحة تمنح نقاطاً تلقائياً.</div>
+          <div class="task"><div class="ti db">DB</div><span>تطبيق 031_campaigns + 032_loyalty</span></div>
+          <div class="task"><div class="ti new">✓</div><span>src/lib/marketing/loyalty.ts</span></div>
+          <div class="task"><div class="ti todo">🔗</div><span>ربط awardPoints() بـ payments/webhook/route.ts</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>dashboard/marketing/loyalty/ — صفحة الولاء</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>dashboard/marketing/campaigns/ — قائمة وإنشاء</span></div>
+        </div>
+        <div class="tldot">⭐</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 3 — الإحالة والتكامل</div>
+          <div class="tlh">التسويق بالعمولة + middleware</div>
+          <div class="tld">يحتاج تعديل middleware.ts لالتقاط ref= في URL — الكود بسيط.</div>
+          <div class="task"><div class="ti db">DB</div><span>تطبيق 033_affiliates.sql</span></div>
+          <div class="task"><div class="ti todo">🔗</div><span>تعديل middleware.ts — التقاط affiliate_ref</span></div>
+          <div class="task"><div class="ti todo">🔗</div><span>ربط registerConversion() بـ payments/webhook</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>dashboard/marketing/affiliates/ — قائمة المسوِّقين</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>صفحة المسوِّق — عموالت + روابط</span></div>
+        </div>
+        <div class="tldot">🤝</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 4 — AI + صفحة التسويق الرئيسية</div>
+          <div class="tlh">AI كوبيرايتر + Dashboard متكامل</div>
+          <div class="tld">صفحة التسويق الرئيسية مُلهَمة من صورة زد الأولى — نظرة عامة على كل الأدوات.</div>
+          <div class="task"><div class="ti todo">AI</div><span>generateCampaignMessage() في lib/ai/index.ts</span></div>
+          <div class="task"><div class="ti todo">AI</div><span>suggestDiscountRate() — AI يقترح نسبة الخصم</span></div>
+          <div class="task"><div class="ti todo">UI</div><span>dashboard/marketing/page.tsx — الصفحة الرئيسية</span></div>
+          <div class="task"><div class="ti todo">📊</div><span>تحليلات التسويق في dashboard/analytics</span></div>
+        </div>
+        <div class="tldot">🤖</div>
+      </div>
+    </div>
+
+    <!-- Summary table -->
+    <p style="font-size:13px;font-weight:600;color:var(--t2);margin:24px 0 12px">ملخص الملفات الكاملة</p>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>المسار</th>
+          <th>النوع</th>
+          <th>المرحلة</th>
+          <th>الأسبوع</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="path">supabase/migrations/030_discounts.sql</span></td><td>DB Migration</td><td><span class="badge g">أول شيء</span></td><td>1</td></tr>
+        <tr><td><span class="path">src/lib/marketing/discounts.ts</span></td><td>Library</td><td><span class="badge g">جديد</span></td><td>1</td></tr>
+        <tr><td><span class="path">app/api/discounts/route.ts</span></td><td>API</td><td><span class="badge g">جديد</span></td><td>1</td></tr>
+        <tr><td><span class="path">app/api/discounts/validate/route.ts</span></td><td>API</td><td><span class="badge g">جديد</span></td><td>1</td></tr>
+        <tr><td><span class="path">app/(tenant)/dashboard/marketing/discounts/*</span></td><td>UI Pages</td><td><span class="badge a">جديد</span></td><td>1</td></tr>
+        <tr><td><span class="path">supabase/migrations/031_campaigns.sql</span></td><td>DB Migration</td><td><span class="badge g">جديد</span></td><td>2</td></tr>
+        <tr><td><span class="path">supabase/migrations/032_loyalty.sql</span></td><td>DB Migration</td><td><span class="badge g">جديد</span></td><td>2</td></tr>
+        <tr><td><span class="path">src/lib/marketing/loyalty.ts</span></td><td>Library</td><td><span class="badge g">جديد</span></td><td>2</td></tr>
+        <tr><td><span class="path">app/api/payments/webhook/route.ts</span></td><td>API تعديل</td><td><span class="badge am">تعديل</span></td><td>2</td></tr>
+        <tr><td><span class="path">supabase/migrations/033_affiliates.sql</span></td><td>DB Migration</td><td><span class="badge g">جديد</span></td><td>3</td></tr>
+        <tr><td><span class="path">middleware.ts</span></td><td>تعديل بسيط</td><td><span class="badge am">تعديل</span></td><td>3</td></tr>
+        <tr><td><span class="path">src/lib/ai/index.ts</span></td><td>AI functions إضافة</td><td><span class="badge am">إضافة</span></td><td>4</td></tr>
+        <tr><td><span class="path">app/(tenant)/dashboard/marketing/page.tsx</span></td><td>UI Page</td><td><span class="badge a">جديد</span></td><td>4</td></tr>
+        <tr><td><span class="path">app/admin/marketing/*</span></td><td>Admin Pages</td><td><span class="badge a">جديد</span></td><td>4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="alert g">
+      <span>✅</span>
+      <span><strong>ربط بـ Module Registry:</strong> أضف <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px">'marketing'</code> في <span class="path">src/lib/module-registry.ts</span> وأي خطة لا تشمله تظهر فيها الميزات مقفلة مع زر "ترقية الخطة" — تماماً كزد.</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fi2">
+      <span>saasfast — وحدة التسويق</span>
+      <span>مرجع زد محفوظ في <span class="path">docs/marketing-reference/</span> — 9 صور + HTML</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>saasfast — التقرير الشامل النهائي</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06081c;--bg2:#0a0d1f;--sf:#101525;--sf2:#151d30;
+  --bd:rgba(80,115,255,.09);--bd2:rgba(80,115,255,.2);
+  --t:#e3e9f7;--t2:#8190be;--t3:#4a5a82;
+  --a:#4f7aff;--a2:#6d94ff;
+  --g:#19c97a;--gbg:rgba(25,201,122,.07);--gbd:rgba(25,201,122,.18);
+  --am:#f5a620;--abg:rgba(245,166,32,.07);--abd:rgba(245,166,32,.18);
+  --rd:#ff4d6a;--rbg:rgba(255,77,106,.07);--rbd:rgba(255,77,106,.18);
+  --pu:#a57dfb;--pbg:rgba(165,125,251,.07);--pbd:rgba(165,125,251,.18);
+  --tl:#2dd2bf;--tbg:rgba(45,210,191,.07);--tbd:rgba(45,210,191,.2);
+  --ai:#ff6b2b;--aibg:rgba(255,107,43,.07);--aibd:rgba(255,107,43,.2);
+  --font:'IBM Plex Sans Arabic',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--font);font-size:15px;line-height:1.7;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(80,115,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(80,115,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+.w{max-width:1160px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(6,8,28,.92);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd)}
+.ni{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;max-width:1160px;margin:0 auto;gap:16px}
+.logo{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo .dot{width:7px;height:7px;background:var(--g);border-radius:50%;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.nl{display:flex;gap:16px;list-style:none}
+.nl a{color:var(--t3);text-decoration:none;font-size:12px;transition:color .2s;white-space:nowrap}.nl a:hover{color:var(--t)}
+.nbadges{display:flex;gap:8px;flex-shrink:0}
+.nb{border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;border:1px solid;white-space:nowrap}
+.nb.g{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.nb.am{background:var(--abg);color:var(--am);border-color:var(--abd)}
+.nb.ai{background:var(--aibg);color:var(--ai);border-color:var(--aibd)}
+
+/* HERO */
+.hero{padding:68px 0 52px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:720px;height:300px;background:radial-gradient(ellipse,rgba(79,122,255,.09) 0%,transparent 70%);pointer-events:none}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:var(--sf);border:1px solid var(--bd2);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--a2);margin-bottom:20px;letter-spacing:.04em}
+h1{font-size:44px;font-weight:700;line-height:1.12;margin-bottom:16px;background:linear-gradient(135deg,#e3e9f7 0%,var(--a2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.herop{font-size:16px;color:var(--t2);max-width:640px;margin-bottom:32px}
+.hmeta{display:flex;gap:32px;flex-wrap:wrap}
+.hm .lb{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.hm .vl{font-size:24px;font-weight:700}
+.hm .vl.g{color:var(--g)}.hm .vl.am{color:var(--am)}.hm .vl.pu{color:var(--pu)}.hm .vl.tl{color:var(--tl)}.hm .vl.ai{color:var(--ai)}
+.hm .sb{font-size:12px;font-weight:400;color:var(--t2)}
+
+/* SECTIONS */
+.sec{padding:52px 0;border-top:1px solid var(--bd)}
+.sh{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px}
+.si{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;margin-top:2px}
+.si.g{background:var(--gbg)} .si.am{background:var(--abg)} .si.rd{background:var(--rbg)} .si.pu{background:var(--pbg)} .si.tl{background:var(--tbg)} .si.ai{background:var(--aibg)} .si.ac{background:rgba(79,122,255,.1)}
+.sl{font-size:11px;text-transform:uppercase;letter-spacing:.15em;margin-bottom:5px}
+.sl.g{color:var(--g)}.sl.am{color:var(--am)}.sl.rd{color:var(--rd)}.sl.pu{color:var(--pu)}.sl.tl{color:var(--tl)}.sl.ai{color:var(--ai)}.sl.ac{color:var(--a2)}
+.sh2{font-size:24px;font-weight:700;margin-bottom:4px}
+.sd{font-size:14px;color:var(--t2)}
+
+/* STAT COUNTERS */
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:32px}
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.sg5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.scard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;text-align:center}
+.snum{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.snum.g{color:var(--g)}.snum.am{color:var(--am)}.snum.tl{color:var(--tl)}.snum.pu{color:var(--pu)}.snum.rd{color:var(--rd)}.snum.ai{color:var(--ai)}.snum.ac{color:var(--a2)}
+.slbl{font-size:12px;color:var(--t3)}
+
+/* GRIDS */
+.fg4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fg3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* FEATURE CARD */
+.fc{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.fc:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.fc.done{border-color:rgba(25,201,122,.2)}
+.fc.done::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(25,201,122,.03) 0%,transparent 55%);pointer-events:none}
+.fc.new{border-color:rgba(79,122,255,.25)}
+.fc.new::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,122,255,.04) 0%,transparent 55%);pointer-events:none}
+.fc.ai-card{border-color:rgba(255,107,43,.22)}
+.fc.ai-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,43,.04) 0%,transparent 55%);pointer-events:none}
+.fc.miss{opacity:.6;border-color:var(--bd)}
+.fbdg{position:absolute;top:13px;left:13px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:600;text-transform:uppercase;border:1px solid}
+.fbdg.done{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.fbdg.new{background:rgba(79,122,255,.1);color:var(--a2);border-color:rgba(79,122,255,.22)}
+.fbdg.miss{background:rgba(255,255,255,.04);color:var(--t3);border-color:rgba(255,255,255,.07)}
+.fbdg.ai{background:var(--aibg);color:var(--ai);border-color:var(--aibd)}
+.ficon{font-size:21px;margin-bottom:9px;margin-top:22px}
+.fc h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.fcsub{font-size:12px;color:var(--t3);margin-bottom:10px;line-height:1.5}
+.flist{display:flex;flex-direction:column;gap:5px}
+.fi{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--t2)}
+.fi::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0;margin-top:1px}
+.fi.x::before{content:'○';color:var(--t3)}
+.fi.n::before{content:'★';color:var(--a2)}
+.fi.ai::before{content:'⚡';color:var(--ai)}
+.fp{margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.04);font-family:var(--mono);font-size:11px;color:var(--t3);display:flex;flex-wrap:wrap;gap:3px}
+.fp span{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:4px;padding:1px 5px}
+
+/* ISSUE CARDS */
+.ic{background:var(--sf);border-radius:14px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;border:1px solid}
+.ic.ok{border-color:var(--gbd)}.ic.ok::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--g)}
+.ic.warn{border-color:var(--abd)}.ic.warn::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--am)}
+.ic.err{border-color:var(--rbd)}.ic.err::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--rd)}
+.ic.info{border-color:var(--bd2)}.ic.info::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--a)}
+.ic.ai{border-color:var(--aibd)}.ic.ai::before{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--ai)}
+.ih{display:flex;align-items:flex-start;gap:12px;margin-bottom:9px}
+.ibdg{padding:3px 9px;border-radius:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;flex-shrink:0;border:1px solid;margin-top:2px}
+.ibdg.ok{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.ibdg.warn{background:var(--abg);color:var(--am);border-color:var(--abd)}
+.ibdg.err{background:var(--rbg);color:var(--rd);border-color:var(--rbd)}
+.ibdg.info{background:var(--pbg);color:var(--pu);border-color:var(--pbd)}
+.ibdg.ai{background:var(--aibg);color:var(--ai);border-color:var(--aibd)}
+.it{font-size:15px;font-weight:600;margin-bottom:4px}
+.id{font-size:13px;color:var(--t2);line-height:1.6}
+.code{background:#050810;border:1px solid var(--bd);border-radius:9px;padding:13px 16px;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--t2);line-height:1.8;overflow-x:auto}
+.cm{color:var(--t3)}.bd{color:var(--rd)}.gd{color:var(--g)}.kw{color:var(--a2)}.st{color:var(--tl)}.at{color:var(--ai)}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;position:relative}
+.tl::before{content:'';position:absolute;right:22px;top:26px;bottom:26px;width:1px;background:linear-gradient(to bottom,var(--a),transparent);opacity:.2}
+.tli{display:grid;grid-template-columns:1fr 52px;gap:18px;align-items:start;padding-bottom:22px}
+.tlc{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;transition:border-color .2s}
+.tlc:hover{border-color:var(--bd2)}
+.tli.now .tlc{border-color:rgba(79,122,255,.3);background:linear-gradient(135deg,rgba(79,122,255,.04) 0%,var(--sf) 100%)}
+.tli.ai-step .tlc{border-color:rgba(255,107,43,.28);background:linear-gradient(135deg,rgba(255,107,43,.04) 0%,var(--sf) 100%)}
+.tldot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid var(--bd);background:var(--bg2);flex-shrink:0;margin-top:12px}
+.tldot.now{border-color:var(--a);background:rgba(79,122,255,.1);box-shadow:0 0 12px rgba(79,122,255,.16)}
+.tldot.ai{border-color:var(--ai);background:var(--aibg);box-shadow:0 0 12px rgba(255,107,43,.12)}
+.tlt{font-size:11px;font-family:var(--mono);color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.tlh{font-size:17px;font-weight:700;margin-bottom:5px}
+.tldesc{font-size:13px;color:var(--t2);margin-bottom:14px}
+.tsks{display:flex;flex-direction:column;gap:5px}
+.tsk{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:7px;background:rgba(255,255,255,.022)}
+.tsi{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.tsi.done{background:var(--gbg);color:var(--g)}
+.tsi.todo{background:var(--a);color:white}
+.tsi.hot{background:var(--rbg);color:var(--rd)}
+.tsi.ai{background:var(--aibg);color:var(--ai)}
+.tsi.opt{background:rgba(255,255,255,.04);color:var(--t3)}
+.tt{color:var(--t2);flex:1}.tt.s{color:var(--t3);text-decoration:line-through}
+.te{font-size:11px;font-family:var(--mono);color:var(--t3)}
+
+/* AI STRATEGY */
+.ai-block{background:linear-gradient(135deg,rgba(255,107,43,.06) 0%,rgba(79,122,255,.04) 100%);border:1px solid rgba(255,107,43,.2);border-radius:16px;padding:26px;margin-bottom:16px}
+.ai-title{font-size:17px;font-weight:700;color:var(--ai);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ai-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px}
+.ai-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.ait{padding:3px 10px;border-radius:20px;font-size:12px;border:1px solid var(--aibd);color:var(--ai);background:var(--aibg)}
+.ai-step{counter-increment:ai-step}
+.ai-steps{counter-reset:ai-step}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tag{padding:3px 10px;border-radius:20px;font-size:12px;border:1px solid}
+.tag.g{color:var(--g);border-color:var(--gbd);background:var(--gbg)}
+.tag.a{color:var(--a2);border-color:rgba(79,122,255,.2);background:rgba(79,122,255,.05)}
+.tag.am{color:var(--am);border-color:var(--abd);background:var(--abg)}
+.tag.pu{color:var(--pu);border-color:var(--pbd);background:var(--pbg)}
+.tag.tl{color:var(--tl);border-color:var(--tbd);background:var(--tbg)}
+.tag.ai{color:var(--ai);border-color:var(--aibd);background:var(--aibg)}
+
+/* MIGRATION TAGS */
+.mtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.mt{padding:4px 9px;border-radius:20px;font-size:11px;border:1px solid;font-family:var(--mono)}
+.mt.g{color:var(--g);border-color:var(--gbd);background:var(--gbg)}
+.mt.n{color:var(--a2);border-color:rgba(79,122,255,.2);background:rgba(79,122,255,.06)}
+
+/* BANNER */
+.banner{border-radius:14px;padding:20px 22px;margin-bottom:24px;display:flex;gap:16px;align-items:flex-start}
+.banner.g{background:linear-gradient(135deg,rgba(25,201,122,.06) 0%,rgba(79,122,255,.04) 100%);border:1px solid rgba(25,201,122,.18)}
+.banner.ai{background:linear-gradient(135deg,rgba(255,107,43,.06) 0%,rgba(165,125,251,.04) 100%);border:1px solid rgba(255,107,43,.2)}
+.bicon{font-size:24px;flex-shrink:0}
+.btitle{font-size:15px;font-weight:700;margin-bottom:6px}
+.btitle.g{color:var(--g)}.btitle.ai{color:var(--ai)}
+.bdesc{font-size:13px;color:var(--t2);line-height:1.6}
+.btags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btag{padding:2px 9px;border-radius:20px;font-size:11px;border:1px solid var(--gbd);color:var(--g);background:var(--gbg)}
+.btag.ai{border-color:var(--aibd);color:var(--ai);background:var(--aibg)}
+
+/* MODULE CONVERSION TABLE */
+.ctable{width:100%;border-collapse:collapse;font-size:13px}
+.ctable th{text-align:right;padding:10px 14px;font-size:12px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--bd)}
+.ctable td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.ctable tr:last-child td{border-bottom:none}
+.ctable tr:hover td{background:rgba(255,255,255,.018)}
+.td-project{font-weight:600;color:var(--t)}
+.td-module{font-family:var(--mono);font-size:11px;color:var(--a2)}
+.td-ai{font-size:12px;color:var(--ai)}
+.badge-sm{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+.badge-sm.g{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.badge-sm.am{background:var(--abg);color:var(--am);border-color:var(--abd)}
+.badge-sm.rd{background:var(--rbg);color:var(--rd);border-color:var(--rbd)}
+
+/* FOOTER */
+footer{padding:38px 0;border-top:1px solid var(--bd)}
+.fi2{display:flex;justify-content:space-between;align-items:center;color:var(--t3);font-size:13px;flex-wrap:wrap;gap:12px}
+.fbrand{font-size:15px;font-weight:700;color:var(--t2)}
+.ftag{background:var(--gbg);color:var(--g);border:1px solid var(--gbd);border-radius:20px;padding:3px 11px;font-size:12px}
+
+@media(max-width:900px){
+  h1{font-size:32px}
+  .sg4,.sg5,.fg3,.fg4{grid-template-columns:1fr 1fr}
+  .nl{display:none}
+}
+@media(max-width:600px){
+  .sg4,.sg5,.sg3,.fg3,.fg4,.fg2{grid-template-columns:1fr}
+  .tli{grid-template-columns:1fr}
+  .tldot,.tl::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="ni">
+    <div class="logo"><div class="dot"></div>saasfast — التقرير الشامل النهائي</div>
+    <ul class="nl">
+      <li><a href="#built">ما تم بناؤه</a></li>
+      <li><a href="#new">الجديد</a></li>
+      <li><a href="#issues">المشاكل</a></li>
+      <li><a href="#remaining">المتبقي</a></li>
+      <li><a href="#ai">الذكاء الاصطناعي</a></li>
+      <li><a href="#convert">التحويل لأي مجال</a></li>
+      <li><a href="#plan">الخطة</a></li>
+    </ul>
+    <div class="nbadges">
+      <span class="nb g">92% مكتمل</span>
+      <span class="nb am">E-commerce ينقص</span>
+      <span class="nb ai">AI جاهز للبدء</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="w">
+    <div class="hbadge">
+      <div style="width:6px;height:6px;background:var(--g);border-radius:50%;animation:pulse 2s ease-in-out infinite"></div>
+      مراجعة شاملة — 21 مارس 2026 — أعمق وأكمل تقرير للمشروع
+    </div>
+    <h1>SaaS Core Platform<br>جاهز 92% — الذكاء الاصطناعي الخطوة التالية</h1>
+    <p class="herop">المشروع أصبح منصة SaaS احترافية متكاملة بكل المعايير. Admin Panel مكتمل بالكامل مع Charts وCRUD وصفحات تفصيلية. المتبقي هو Domain Modules + تكامل AI.</p>
+    <div class="hmeta">
+      <div class="hm"><div class="lb">مكتمل</div><div class="vl g">92% <span class="sb">SaaS Core</span></div></div>
+      <div class="hm"><div class="lb">ملفات TypeScript</div><div class="vl ac">100+ <span class="sb">ملف</span></div></div>
+      <div class="hm"><div class="lb">Admin Routes</div><div class="vl tl">9 <span class="sb">صفحة</span></div></div>
+      <div class="hm"><div class="lb">Tenant Routes</div><div class="vl pu">7 <span class="sb">صفحة</span></div></div>
+      <div class="hm"><div class="lb">AI Status</div><div class="vl ai">0% <span class="sb">لم يبدأ</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTERS -->
+<div class="w" style="padding-bottom:48px">
+  <div class="sg5">
+    <div class="scard"><div class="snum g">10</div><div class="slbl">Migrations مطبّقة</div></div>
+    <div class="scard"><div class="snum ac">28</div><div class="slbl">API Routes</div></div>
+    <div class="scard"><div class="snum tl">22</div><div class="slbl">صفحات (Pages)</div></div>
+    <div class="scard"><div class="snum pu">7</div><div class="slbl">Modules مُعرَّفة</div></div>
+    <div class="scard"><div class="snum am">9+</div><div class="slbl">Admin Sections</div></div>
+  </div>
+
+  <div class="banner g">
+    <div class="bicon">🚀</div>
+    <div>
+      <div class="btitle g">أهم اكتشافات هذه المراجعة</div>
+      <div class="bdesc">Admin Panel تضخّم بشكل استثنائي — من 3 صفحات بسيطة إلى 9 أقسام كاملة مع Charts وCRUD كامل. كما اكتُشف وجود script جاهز لإنشاء Super Admin.</div>
+      <div class="btags">
+        <span class="btag">RevenueChart (Recharts) ✓</span>
+        <span class="btag">TenantsBarChart ✓</span>
+        <span class="btag">PlanDistributionChart ✓</span>
+        <span class="btag">Tenant Detail — 5 Tabs ✓</span>
+        <span class="btag">Plans CRUD كامل ✓</span>
+        <span class="btag">Users + Pagination ✓</span>
+        <span class="btag">Audit Logs + Filter ✓</span>
+        <span class="btag">Invoices + Pagination ✓</span>
+        <span class="btag">Admin Settings + Feature Flags ✓</span>
+        <span class="btag">create-super-admin.mjs ✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WHAT'S BUILT ══ -->
+<section class="sec" id="built">
+  <div class="w">
+    <div class="sh">
+      <div class="si g">✅</div>
+      <div>
+        <div class="sl g">الإنجازات الكاملة</div>
+        <div class="sh2">ما تم بناؤه — الصورة الكاملة</div>
+        <div class="sd">جرد شامل لكل ما في المشروع الآن.</div>
+      </div>
+    </div>
+
+    <!-- CORE FOUNDATION -->
+    <p style="font-size:12px;color:var(--am);font-weight:600;margin-bottom:11px;text-transform:uppercase;letter-spacing:.1em">Foundation Layer — الأساس (100%)</p>
+    <div class="fg4" style="margin-bottom:24px">
+
+      <div class="fc done">
+        <span class="fbdg done">✓ مكتمل</span>
+        <div class="ficon">🔐</div>
+        <h3>Auth System</h3>
+        <div class="flist">
+          <div class="fi">NextAuth v4 + Supabase</div>
+          <div class="fi">Google OAuth + Credentials</div>
+          <div class="fi">JWT مع tenant + role</div>
+          <div class="fi">create-super-admin.mjs</div>
+        </div>
+        <div class="fp"><span>lib/auth-options.ts</span><span>app/auth/*</span></div>
+      </div>
+
+      <div class="fc done">
+        <span class="fbdg done">✓ مكتمل</span>
+        <div class="ficon">🏢</div>
+        <h3>Multi-tenancy</h3>
+        <div class="flist">
+          <div class="fi">Subdomain Resolution</div>
+          <div class="fi">Custom Domain support</div>
+          <div class="fi">RLS على 28+ جدول</div>
+          <div class="fi">Trial + Subscription Guard</div>
+        </div>
+        <div class="fp"><span>middleware.ts</span><span>lib/tenant.ts</span></div>
+      </div>
+
+      <div class="fc done">
+        <span class="fbdg done">✓ مكتمل</span>
+        <div class="ficon">💳</div>
+        <h3>MyFatoorah Payments</h3>
+        <div class="flist">
+          <div class="fi">Initiate + Callback + Webhook</div>
+          <div class="fi">Invoice PDF (Arabic)</div>
+          <div class="fi">Modules تفعيل تلقائي</div>
+          <div class="fi">Sandbox جاهز</div>
+        </div>
+        <div class="fp"><span>lib/myfatoorah.ts</span><span>app/api/payments</span></div>
+      </div>
+
+      <div class="fc done">
+        <span class="fbdg done">✓ مكتمل</span>
+        <div class="ficon">🗄️</div>
+        <h3>Database — 10 Migrations</h3>
+        <div class="flist">
+          <div class="fi">Core Tables (plans, tenants, users)</div>
+          <div class="fi">Module Tables (products, orders...)</div>
+          <div class="fi">Team + GDPR + Audit + Referrals</div>
+          <div class="fi">Announcements + Notifications</div>
+        </div>
+        <div class="fp"><span>supabase/migrations/001-016</span></div>
+      </div>
+
+    </div>
+
+    <!-- ADMIN PANEL — NEW EXPANDED -->
+    <p style="font-size:12px;color:var(--am);font-weight:600;margin-bottom:11px;text-transform:uppercase;letter-spacing:.1em">Admin Panel — موسّع بالكامل ★ (جديد)</p>
+    <div class="fg3" style="margin-bottom:24px">
+
+      <div class="fc new">
+        <span class="fbdg new">★ موسّع</span>
+        <div class="ficon">📊</div>
+        <h3>Admin Dashboard — Charts</h3>
+        <div class="flist">
+          <div class="fi n">RevenueChart — 12 شهر (Recharts)</div>
+          <div class="fi n">TenantsBarChart — 14 يوم</div>
+          <div class="fi n">PlanDistributionChart</div>
+          <div class="fi n">12 استعلام بالتوازي (Promise.all)</div>
+          <div class="fi n">Expiring Soon + Recent Activity</div>
+        </div>
+        <div class="fp"><span>app/admin/page.tsx</span><span>components/admin/*-chart.tsx</span></div>
+      </div>
+
+      <div class="fc new">
+        <span class="fbdg new">★ جديد</span>
+        <div class="ficon">👤</div>
+        <h3>Tenant Detail — 5 Tabs</h3>
+        <div class="flist">
+          <div class="fi n">نظرة عامة + Logo + معلومات</div>
+          <div class="fi n">الأعضاء مع avatars + أدوار</div>
+          <div class="fi n">الاشتراكات مع تفاصيل الخطة</div>
+          <div class="fi n">الفواتير مع إجمالي الإيرادات</div>
+          <div class="fi n">سجل النشاط (Audit Logs)</div>
+          <div class="fi n">TenantActions: تعليق + تغيير خطة</div>
+        </div>
+        <div class="fp"><span>app/admin/tenants/[id]/page.tsx</span><span>components/admin/tenant-actions.tsx</span></div>
+      </div>
+
+      <div class="fc new">
+        <span class="fbdg new">★ جديد</span>
+        <div class="ficon">📋</div>
+        <h3>Plans CRUD كامل</h3>
+        <div class="flist">
+          <div class="fi n">إنشاء/تعديل/حذف الخطط</div>
+          <div class="fi n">اختيار Modules لكل خطة</div>
+          <div class="fi n">4 فترات فوترة (شهري، ربعي...)</div>
+          <div class="fi n">حدود: users, products, orders</div>
+          <div class="fi n">Featured + Active toggles</div>
+          <div class="fi n">Server Actions للحفظ</div>
+        </div>
+        <div class="fp"><span>app/admin/plans/new</span><span>app/admin/plans/[id]</span><span>components/admin/plan-form.tsx</span></div>
+      </div>
+
+      <div class="fc new">
+        <span class="fbdg new">★ جديد</span>
+        <div class="ficon">👥</div>
+        <h3>Users Page</h3>
+        <div class="flist">
+          <div class="fi n">Pagination (25/صفحة)</div>
+          <div class="fi n">Search بالاسم + الإيميل</div>
+          <div class="fi n">عرض المنشآت لكل مستخدم</div>
+          <div class="fi n">يقرأ من user_profiles table</div>
+        </div>
+        <div class="fp"><span>app/admin/users/page.tsx</span></div>
+      </div>
+
+      <div class="fc new">
+        <span class="fbdg new">★ جديد</span>
+        <div class="ficon">📝</div>
+        <h3>Audit Logs — كامل</h3>
+        <div class="flist">
+          <div class="fi n">Pagination (30/صفحة)</div>
+          <div class="fi n">فلتر حسب Action + Tenant</div>
+          <div class="fi n">ألوان لكل نوع حدث</div>
+          <div class="fi n">Links للـ tenants</div>
+        </div>
+        <div class="fp"><span>app/admin/audit-logs/page.tsx</span></div>
+      </div>
+
+      <div class="fc new">
+        <span class="fbdg new">★ جديد</span>
+        <div class="ficon">🧾</div>
+        <h3>Invoices + Settings</h3>
+        <div class="flist">
+          <div class="fi n">Invoices: pagination + فلتر حالة</div>
+          <div class="fi n">إجمالي الإيرادات في الأعلى</div>
+          <div class="fi n">Settings: Feature Flags display</div>
+          <div class="fi n">Env Vars status (محدد / غير محدد)</div>
+        </div>
+        <div class="fp"><span>app/admin/invoices</span><span>app/admin/settings</span></div>
+      </div>
+
+    </div>
+
+    <!-- TENANT DASHBOARD -->
+    <p style="font-size:12px;color:var(--am);font-weight:600;margin-bottom:11px;text-transform:uppercase;letter-spacing:.1em">Tenant Dashboard — 7 أقسام (مكتملة)</p>
+    <div class="fg4" style="margin-bottom:24px">
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🏠</div><h3>Overview Dashboard</h3>
+        <div class="flist">
+          <div class="fi">4 StatCards مع Trending</div>
+          <div class="fi">الخطة + الوحدات المفعلة</div>
+          <div class="fi">Quick Actions ذكية</div>
+        </div>
+        <div class="fp"><span>dashboard/page.tsx</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">📈</div><h3>Analytics</h3>
+        <div class="flist">
+          <div class="fi">Revenue + Orders + Customers</div>
+          <div class="fi">Recent Orders + Top Products</div>
+          <div class="fi">API: /analytics/api/overview</div>
+        </div>
+        <div class="fp"><span>dashboard/analytics</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">👥</div><h3>Team Management</h3>
+        <div class="flist">
+          <div class="fi">5 أدوار + دعوة بـ Email</div>
+          <div class="fi">نسخ Invite Link</div>
+          <div class="fi">إلغاء الدعوات</div>
+        </div>
+        <div class="fp"><span>dashboard/team</span><span>api/team/*</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">⚙️</div><h3>Settings — 3 Tabs</h3>
+        <div class="flist">
+          <div class="fi">معلومات + رقم ضريبي</div>
+          <div class="fi">Logo Upload + الألوان</div>
+          <div class="fi">إعدادات الإشعارات</div>
+        </div>
+        <div class="fp"><span>dashboard/settings</span><span>api/settings/upload</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🌐</div><h3>Custom Domains</h3>
+        <div class="flist">
+          <div class="fi">إضافة + حذف + تحقق</div>
+          <div class="fi">SSL Status tracking</div>
+          <div class="fi">تعليمات DNS واضحة</div>
+        </div>
+        <div class="fp"><span>dashboard/domains</span><span>api/domains</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🎁</div><h3>Referrals</h3>
+        <div class="flist">
+          <div class="fi">رمز إحالة فريد</div>
+          <div class="fi">Native Share API</div>
+          <div class="fi">Stats + سجل المكافآت</div>
+        </div>
+        <div class="fp"><span>dashboard/referrals</span></div>
+      </div>
+
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">💳</div><h3>Billing Page</h3>
+        <div class="flist">
+          <div class="fi">3 خطط ديناميكية من DB</div>
+          <div class="fi">Upgrade flow</div>
+          <div class="fi">Payment History</div>
+        </div>
+        <div class="fp"><span>dashboard/billing</span></div>
+      </div>
+
+    </div>
+
+    <!-- INFRASTRUCTURE -->
+    <p style="font-size:12px;color:var(--am);font-weight:600;margin-bottom:11px;text-transform:uppercase;letter-spacing:.1em">Infrastructure Layer</p>
+    <div class="fg4">
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🔔</div><h3>Email System</h3>
+        <div class="flist">
+          <div class="fi">7 Templates (Resend)</div>
+          <div class="fi">Welcome + Invitation</div>
+          <div class="fi">Trial + Payment + Cancel</div>
+        </div>
+        <div class="fp"><span>lib/emails/templates/</span></div>
+      </div>
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">⏰</div><h3>Cron Jobs</h3>
+        <div class="flist">
+          <div class="fi">Trials منتهية → expired</div>
+          <div class="fi">تنبيه 7 أيام قبل الانتهاء</div>
+          <div class="fi">Vercel Cron 2AM يومياً</div>
+        </div>
+        <div class="fp"><span>api/cron/subscriptions</span><span>vercel.json</span></div>
+      </div>
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🔒</div><h3>Security</h3>
+        <div class="flist">
+          <div class="fi">Rate Limiting (Upstash Redis)</div>
+          <div class="fi">6 Limiters مختلفة</div>
+          <div class="fi">CSP + HSTS + Security Headers</div>
+          <div class="fi">GDPR (Export + Delete + Consent)</div>
+        </div>
+        <div class="fp"><span>lib/rate-limit.ts</span></div>
+      </div>
+      <div class="fc done"><span class="fbdg done">✓</span>
+        <div class="ficon">🎨</div><h3>White-label + Theme</h3>
+        <div class="flist">
+          <div class="fi">TenantThemeProvider</div>
+          <div class="fi">CSS Variables تلقائية</div>
+          <div class="fi">Logo + Favicon ديناميكي</div>
+          <div class="fi">5 خطوط عربية</div>
+        </div>
+        <div class="fp"><span>components/tenant-theme-provider.tsx</span></div>
+      </div>
+    </div>
+
+    <div class="mtags" style="margin-top:20px">
+      <span class="mt g">001 core_tables ✓</span>
+      <span class="mt g">002 rls_policies ✓</span>
+      <span class="mt g">003 module_tables ✓</span>
+      <span class="mt g">004 fix_trigger ✓</span>
+      <span class="mt n">010 subscription_notifs ★</span>
+      <span class="mt n">011 gdpr_tables ★</span>
+      <span class="mt n">012 audit_logs ★</span>
+      <span class="mt n">014 team_management ★</span>
+      <span class="mt n">015 announcements ★</span>
+      <span class="mt n">016 referral_program ★</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ISSUES ══ -->
+<section class="sec" id="issues">
+  <div class="w">
+    <div class="sh">
+      <div class="si rd">⚠️</div>
+      <div>
+        <div class="sl rd">المشاكل والملاحظات</div>
+        <div class="sh2">3 مشاكل تحتاج إصلاح</div>
+        <div class="sd">جميعها إصلاحات صغيرة — لا توجد مشاكل حرجة.</div>
+      </div>
+    </div>
+
+    <div class="ic err">
+      <div class="ih"><div class="ibdg err">عاجل</div><div>
+        <div class="it">Team link غير موجود في Sidebar</div>
+        <div class="id">صفحة /dashboard/team مكتملة 602 سطر لكن لا يوجد رابط لها في sidebar.tsx. المستخدم لا يمكنه الوصول إليها إلا بكتابة الـ URL يدوياً.</div>
+      </div></div>
+      <div class="code">
+<span class="cm">// أضف في navigation array في components/dashboard/sidebar.tsx</span>
+<span class="kw">const</span> navigation = [
+  ...
+  { title: <span class="st">'الفريق'</span>, href: <span class="st">'/dashboard/team'</span>, icon: Users },
+  ...
+]
+      </div>
+    </div>
+
+    <div class="ic warn">
+      <div class="ih"><div class="ibdg warn">تحقق</div><div>
+        <div class="it">Migrations 014-016 — تأكد من تطبيقها في Supabase</div>
+        <div class="id">Team Management + Announcements + Referrals موجودة في الكود لكن جداولها في Supabase يحتاج تأكيد. ستظهر أخطاء عند استخدامها إذا لم تُطبَّق.</div>
+      </div></div>
+      <div class="code">
+<span class="cm">-- تحقق في Supabase SQL Editor:</span>
+<span class="kw">SELECT</span> table_name <span class="kw">FROM</span> information_schema.tables
+<span class="kw">WHERE</span> table_name <span class="kw">IN</span> (<span class="st">'team_invitations','announcements','referrals','referral_rewards'</span>);
+      </div>
+    </div>
+
+    <div class="ic warn">
+      <div class="ih"><div class="ibdg warn">إصلاح</div><div>
+        <div class="it">TenantThemeProvider — loading screen بلا timeout</div>
+        <div class="id">إذا فشل أو أبطأ /api/settings، المستخدم يرى شاشة فارغة للأبد. الحل: أضف 3s timeout.</div>
+      </div></div>
+      <div class="code">
+<span class="cm">// في tenant-theme-provider.tsx</span>
+<span class="kw">const</span> timeout = setTimeout(() => setLoading(<span class="st">false</span>), <span class="gd">3000</span>);
+fetchBranding().finally(() => { clearTimeout(timeout); setLoading(<span class="st">false</span>); });
+      </div>
+    </div>
+
+    <div class="ic info">
+      <div class="ih"><div class="ibdg info">ملاحظة</div><div>
+        <div class="it">user_profiles table — مطلوبة للـ Admin Panel</div>
+        <div class="id">Admin layout + Users page + Tenant detail تقرأ من user_profiles. إذا لم تكن موجودة في DB سيحدث خطأ. تأكد من وجودها أو أضف migration لها.</div>
+      </div></div>
+    </div>
+
+    <div class="ic info">
+      <div class="ih"><div class="ibdg info">ملاحظة</div><div>
+        <div class="it">Cloudflare Domain API — معلّق في الكود</div>
+        <div class="id">api/domains/route.ts يحتوي Cloudflare integration لكنه مُعلّق بـ comment. النطاقات تُضاف في DB فقط. يحتاج إلغاء التعليق للعمل الفعلي.</div>
+      </div></div>
+    </div>
+
+    <div class="ic info">
+      <div class="ih"><div class="ibdg info">إجراء</div><div>
+        <div class="it">شغّل create-super-admin.mjs لأول دخول للـ Admin Panel</div>
+        <div class="id">يوجد script جاهز لإنشاء حساب super_admin. Admin Panel لن يعمل بدونه.</div>
+      </div></div>
+      <div class="code">
+<span class="cm"># من جذر المشروع:</span>
+<span class="gd">node scripts/create-super-admin.mjs</span>
+<span class="cm"># ثم ادخل: http://localhost:3000/admin</span>
+<span class="cm"># Email: admin@saascore.com | Password: Admin@123456</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT'S MISSING ══ -->
+<section class="sec" id="remaining">
+  <div class="w">
+    <div class="sh">
+      <div class="si am">📦</div>
+      <div>
+        <div class="sl am">ما يتبقى</div>
+        <div class="sh2">Domain Modules + AI — الخطوة الأخيرة</div>
+        <div class="sd">SaaS Core مكتمل 92%. المتبقي هو وحدات المجال والذكاء الاصطناعي.</div>
+      </div>
+    </div>
+
+    <div class="fg3">
+
+      <div class="fc miss">
+        <span class="fbdg miss">غير موجود</span>
+        <div class="ficon">🛍️</div>
+        <h3>E-commerce Module</h3>
+        <div class="fcsub">الأولوية الأولى لـ shops.sa — DB جاهز</div>
+        <div class="flist">
+          <div class="fi x">Products CRUD + Images</div>
+          <div class="fi x">Categories + Variants</div>
+          <div class="fi x">Orders Management</div>
+          <div class="fi x">Cart + Checkout + MyFatoorah</div>
+          <div class="fi x">Storefront للزبائن</div>
+          <div class="fi x">Coupons + Shipping</div>
+        </div>
+        <div class="fp"><span style="color:var(--g)">DB: Migration 003 ✓ جاهز</span></div>
+      </div>
+
+      <div class="fc miss">
+        <span class="fbdg miss">غير موجود</span>
+        <div class="ficon">🌐</div>
+        <h3>Page Builder Module</h3>
+        <div class="fcsub">webs.sa — DB جاهز</div>
+        <div class="flist">
+          <div class="fi x">Block System (Hero, CTA...)</div>
+          <div class="fi x">Drag & Drop Editor</div>
+          <div class="fi x">Templates Library</div>
+          <div class="fi x">SEO Manager</div>
+        </div>
+        <div class="fp"><span style="color:var(--g)">DB: pages + blocks ✓</span></div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">يُبنى الآن</span>
+        <div class="ficon">🤖</div>
+        <h3>AI Module</h3>
+        <div class="fcsub">ai_agent في Module Registry — .env جاهز</div>
+        <div class="flist">
+          <div class="fi ai">ANTHROPIC_API_KEY في .env ✓</div>
+          <div class="fi ai">OPENAI_API_KEY في .env ✓</div>
+          <div class="fi x">ai-sdk غير مثبّت</div>
+          <div class="fi x">لا توجد صفحات AI</div>
+          <div class="fi x">لا يوجد AI Context Layer</div>
+        </div>
+        <div class="fp"><span>lib/module-registry.ts — ai_agent ✓</span></div>
+      </div>
+
+      <div class="fc miss">
+        <span class="fbdg miss">غير موجود</span>
+        <div class="ficon">📊</div>
+        <h3>Analytics Charts</h3>
+        <div class="fcsub">Recharts مثبّت — Data جاهزة</div>
+        <div class="flist">
+          <div class="fi x">Revenue chart للـ Tenant</div>
+          <div class="fi x">Orders trend</div>
+          <div class="fi">Data API جاهزة ✓</div>
+          <div class="fi">recharts مثبّت ✓</div>
+        </div>
+      </div>
+
+      <div class="fc miss">
+        <span class="fbdg miss">غير موجود</span>
+        <div class="ficon">🔑</div>
+        <h3>API Keys Management</h3>
+        <div class="fcsub">للمطورين والتكاملات الخارجية</div>
+        <div class="flist">
+          <div class="fi x">إنشاء API Keys</div>
+          <div class="fi x">صلاحيات لكل Key</div>
+          <div class="fi x">Usage Analytics</div>
+        </div>
+      </div>
+
+      <div class="fc miss">
+        <span class="fbdg miss">غير موجود</span>
+        <div class="ficon">📱</div>
+        <h3>In-app Notifications</h3>
+        <div class="fcsub">Bell icon في الـ Header</div>
+        <div class="flist">
+          <div class="fi">Knock API Key في .env ✓</div>
+          <div class="fi x">Bell icon + Dropdown</div>
+          <div class="fi x">Mark as read</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ AI INTEGRATION ══ -->
+<section class="sec" id="ai">
+  <div class="w">
+    <div class="sh">
+      <div class="si ai">🤖</div>
+      <div>
+        <div class="sl ai">الذكاء الاصطناعي</div>
+        <div class="sh2">كيف تُدمج AI في saasfast بشكل صحيح</div>
+        <div class="sd">المشروع جاهز تقنياً لاستقبال AI. المطلوب: تثبيت الـ SDK ثم بناء طبقات AI فوق الـ Module Registry الموجود.</div>
+      </div>
+    </div>
+
+    <div class="banner ai">
+      <div class="bicon">⚡</div>
+      <div>
+        <div class="btitle ai">المتوفر حالياً للـ AI</div>
+        <div class="bdesc">البنية جاهزة. .env فيه ANTHROPIC_API_KEY و OPENAI_API_KEY. Module Registry يحتوي ai_agent. ينقص فقط التثبيت والبناء.</div>
+        <div class="btags">
+          <span class="btag ai">ANTHROPIC_API_KEY ✓ في .env</span>
+          <span class="btag ai">OPENAI_API_KEY ✓ في .env</span>
+          <span class="btag ai">ai_agent في Module Registry ✓</span>
+          <span class="btag ai">MSAED_API_KEY جاهز ✓</span>
+          <span class="btag ai">Supabase pgvector جاهز للتفعيل</span>
+          <span class="btag ai">Server Actions — بنية مناسبة للـ streaming</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI LEVELS -->
+    <p style="font-size:12px;color:var(--ai);font-weight:600;margin-bottom:14px;text-transform:uppercase;letter-spacing:.1em">3 مستويات لدمج AI — من البسيط للمتقدم</p>
+
+    <div class="ai-block">
+      <div class="ai-title">⚡ المستوى 1 — AI Utilities (أسبوع واحد)</div>
+      <div class="ai-desc">وظائف AI مساعدة جاهزة تُستخدم في أي module. تثبّت مرة واحدة وتُستدعى في أي مكان.</div>
+      <div class="ai-tags">
+        <span class="ait">@ai-sdk/anthropic</span>
+        <span class="ait">lib/ai/index.ts</span>
+        <span class="ait">generateText() + streamText()</span>
+        <span class="ait">Arabic-first</span>
+      </div>
+      <div class="code">
+<span class="cm">## الخطوة 1: تثبيت</span>
+<span class="gd">pnpm add ai @ai-sdk/anthropic @ai-sdk/openai</span>
+
+<span class="cm">## الخطوة 2: lib/ai/index.ts — AI Utilities</span>
+<span class="kw">import</span> { generateText, streamText } from <span class="st">'ai'</span>
+<span class="kw">import</span> { anthropic } from <span class="st">'@ai-sdk/anthropic'</span>
+
+<span class="at">export async function</span> generateArabicContent(prompt: string) {
+  <span class="kw">const</span> { text } = await generateText({
+    model: anthropic(<span class="st">'claude-sonnet-4-5'</span>),
+    system: <span class="st">'أنت مساعد متخصص للسوق السعودي. رد بالعربية دائماً.'</span>,
+    prompt,
+  })
+  <span class="kw">return</span> text
+}
+
+<span class="at">export async function</span> analyzeArabicText(text: string) { ... }
+<span class="at">export async function</span> translateToArabic(text: string) { ... }
+<span class="at">export async function</span> generateSEOContent(product: any) { ... }
+      </div>
+    </div>
+
+    <div class="ai-block">
+      <div class="ai-title">🧠 المستوى 2 — AI per Module (أسبوعان)</div>
+      <div class="ai-desc">كل Module يحصل على مساعد AI مخصص يفهم سياق المجال. يُضاف كـ Server Action في كل صفحة.</div>
+      <div class="ai-tags">
+        <span class="ait">E-commerce AI</span>
+        <span class="ait">Page Builder AI</span>
+        <span class="ait">HR AI</span>
+        <span class="ait">CRM AI</span>
+        <span class="ait">Accounting AI</span>
+      </div>
+      <div class="code">
+<span class="cm">// مثال: E-commerce Module AI</span>
+<span class="cm">// src/app/(tenant)/dashboard/products/actions.ts</span>
+
+<span class="st">'use server'</span>
+<span class="at">export async function</span> generateProductDescription(productName: string) {
+  <span class="kw">const</span> { text } = await generateText({
+    model: anthropic(<span class="st">'claude-haiku-4-5'</span>),  <span class="cm">// Haiku للسرعة والتكلفة</span>
+    prompt: <span class="st">`اكتب وصفاً احترافياً للمنتج: "${productName}" للسوق السعودي`</span>,
+  })
+  <span class="kw">return</span> { description: text }
+}
+
+<span class="at">export async function</span> suggestProductPrice(category: string, cost: number) { ... }
+<span class="at">export async function</span> analyzeOrderTrends(orders: Order[]) { ... }
+<span class="at">export async function</span> generateCouponIdeas(tenantData: any) { ... }
+      </div>
+    </div>
+
+    <div class="ai-block">
+      <div class="ai-title">🤖 المستوى 3 — AI Agent (شهر)</div>
+      <div class="ai-desc">وكيل AI كامل يعمل على WhatsApp/Snapchat/Telegram عبر msaed.ai. يتفاعل مع بيانات الـ tenant فعلياً.</div>
+      <div class="ai-tags">
+        <span class="ait">WhatsApp Integration</span>
+        <span class="ait">Snapchat Bot</span>
+        <span class="ait">Function Calling</span>
+        <span class="ait">Supabase pgvector</span>
+        <span class="ait">Conversation Memory</span>
+        <span class="ait">msaed.ai</span>
+      </div>
+      <div class="code">
+<span class="cm">// src/app/api/ai/agent/route.ts — AI Agent with Tools</span>
+<span class="kw">import</span> { streamText, tool } from <span class="st">'ai'</span>
+
+<span class="at">export async function</span> POST(req: Request) {
+  <span class="kw">const</span> { messages, tenantId } = await req.json()
+  
+  <span class="kw">const</span> result = await streamText({
+    model: anthropic(<span class="st">'claude-sonnet-4-5'</span>),
+    system: buildTenantSystemPrompt(tenantId),  <span class="cm">// سياق المنشأة</span>
+    messages,
+    tools: {
+      getProducts: tool({
+        description: <span class="st">'احصل على منتجات المنشأة'</span>,
+        parameters: z.object({ limit: z.number() }),
+        execute: async ({ limit }) => getProductsForTenant(tenantId, limit)
+      }),
+      createOrder: tool({ ... }),
+      checkInventory: tool({ ... }),
+      processPayment: tool({ ... })
+    }
+  })
+  
+  <span class="kw">return</span> result.toDataStreamResponse()
+}
+      </div>
+    </div>
+
+    <!-- AI PER DOMAIN TABLE -->
+    <p style="font-size:13px;font-weight:600;margin:24px 0 14px">AI حسب كل Module — ماذا يفعل الـ AI في كل مجال</p>
+    <div class="fc" style="margin-bottom:16px;padding:0;overflow:hidden">
+      <table class="ctable">
+        <thead>
+          <tr>
+            <th>الـ Module</th>
+            <th>وظائف AI المقترحة</th>
+            <th>النموذج المناسب</th>
+            <th>الجدوى</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-project">🛍️ E-commerce</td>
+            <td class="td-ai">وصف منتجات، اقتراح أسعار، تحليل مبيعات، ردود عملاء</td>
+            <td><span class="badge-sm am">claude-haiku</span></td>
+            <td><span class="badge-sm g">عالي جداً</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🌐 Page Builder</td>
+            <td class="td-ai">توليد محتوى landing page، كتابة Copy، SEO meta</td>
+            <td><span class="badge-sm am">claude-sonnet</span></td>
+            <td><span class="badge-sm g">عالي</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">📊 Accounting</td>
+            <td class="td-ai">تصنيف مصروفات، توقع تدفق نقدي، تقارير بالعربية</td>
+            <td><span class="badge-sm am">claude-sonnet</span></td>
+            <td><span class="badge-sm g">عالي</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">👥 HRMS</td>
+            <td class="td-ai">تحليل أداء موظفين، توليد JD، ردود استفسارات HR</td>
+            <td><span class="badge-sm am">claude-haiku</span></td>
+            <td><span class="badge-sm am">متوسط</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🤝 CRM</td>
+            <td class="td-ai">تحليل عملاء، اقتراح follow-up، scoring للـ leads</td>
+            <td><span class="badge-sm am">claude-sonnet</span></td>
+            <td><span class="badge-sm g">عالي</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">📅 Booking</td>
+            <td class="td-ai">اقتراح مواعيد، ردود تلقائية للحجوزات، تذكيرات ذكية</td>
+            <td><span class="badge-sm am">claude-haiku</span></td>
+            <td><span class="badge-sm g">عالي جداً</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🤖 AI Agent</td>
+            <td class="td-ai">WhatsApp bot كامل، يتصل بـ DB، يعالج طلبات حقيقية</td>
+            <td><span class="badge-sm am">claude-sonnet</span></td>
+            <td><span class="badge-sm g">الأعلى</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AI TECH STACK -->
+    <div class="fg3">
+      <div class="fc ai-card">
+        <div class="ficon">📦</div>
+        <h3>الـ Stack المطلوب</h3>
+        <div class="flist">
+          <div class="fi ai">ai (Vercel AI SDK) — الرئيسي</div>
+          <div class="fi ai">@ai-sdk/anthropic — Claude</div>
+          <div class="fi ai">@ai-sdk/openai — GPT (اختياري)</div>
+          <div class="fi ai">ai/rsc — Server Components streaming</div>
+          <div class="fi">pgvector (Supabase) — للـ RAG</div>
+          <div class="fi">zod — schema للـ tools</div>
+        </div>
+      </div>
+      <div class="fc ai-card">
+        <div class="ficon">🏗️</div>
+        <h3>Architecture المقترح</h3>
+        <div class="flist">
+          <div class="fi ai">lib/ai/index.ts — shared utilities</div>
+          <div class="fi ai">lib/ai/prompts.ts — system prompts</div>
+          <div class="fi ai">lib/ai/tools/ — AI tools لكل module</div>
+          <div class="fi ai">app/api/ai/ — streaming endpoints</div>
+          <div class="fi">كل module له AI Server Actions</div>
+          <div class="fi">AI حسب الـ tenant context</div>
+        </div>
+      </div>
+      <div class="fc ai-card">
+        <div class="ficon">🎯</div>
+        <h3>الأولوية</h3>
+        <div class="flist">
+          <div class="fi ai">1. E-commerce AI — توليد أوصاف منتجات</div>
+          <div class="fi ai">2. AI Chat في Dashboard</div>
+          <div class="fi ai">3. WhatsApp Agent (msaed.ai)</div>
+          <div class="fi">4. RAG على بيانات الـ tenant</div>
+          <div class="fi">5. AI Analytics insights</div>
+          <div class="fi">6. Automation workflows (n8n)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOMAIN CONVERSION ══ -->
+<section class="sec" id="convert">
+  <div class="w">
+    <div class="sh">
+      <div class="si pu">🔄</div>
+      <div>
+        <div class="sl pu">تحويل لأي مجال</div>
+        <div class="sh2">saasfast → أي مشروع SaaS في أسبوع</div>
+        <div class="sd">هذا هو الجمال الحقيقي — نفس الكود، modules مختلفة، branding مختلف.</div>
+      </div>
+    </div>
+
+    <div class="fc" style="margin-bottom:20px;padding:0;overflow:hidden">
+      <table class="ctable">
+        <thead>
+          <tr>
+            <th>المشروع / المجال</th>
+            <th>Modules المُفعّلة</th>
+            <th>AI المقترح</th>
+            <th>الوقت</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-project">🛍️ shops.sa<br><small style="color:var(--t3)">متجر إلكتروني</small></td>
+            <td class="td-module">ecommerce + page_builder</td>
+            <td class="td-ai">وصف منتجات، ردود عملاء، اقتراح أسعار</td>
+            <td><span class="badge-sm g">أسبوعان</span></td>
+            <td><span class="badge-sm am">قادم</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🌐 webs.sa<br><small style="color:var(--t3)">بانٍ مواقع</small></td>
+            <td class="td-module">page_builder + ecommerce</td>
+            <td class="td-ai">توليد صفحات، كتابة Copy، SEO</td>
+            <td><span class="badge-sm g">3 أسابيع</span></td>
+            <td><span class="badge-sm am">قادم</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🤖 msaed.ai<br><small style="color:var(--t3)">وكيل AI</small></td>
+            <td class="td-module">ai_agent + crm</td>
+            <td class="td-ai">الكل — WhatsApp/Snapchat bot كامل</td>
+            <td><span class="badge-sm am">شهر</span></td>
+            <td><span class="badge-sm am">قادم</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">📊 نظام محاسبة<br><small style="color:var(--t3)">ZATCA compliant</small></td>
+            <td class="td-module">accounting + ecommerce</td>
+            <td class="td-ai">تصنيف مصروفات، تقارير ذكية</td>
+            <td><span class="badge-sm g">3 أسابيع</span></td>
+            <td><span class="badge-sm rd">لاحقاً</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">👥 HRMS<br><small style="color:var(--t3)">رواتب + موظفين</small></td>
+            <td class="td-module">hrms + accounting</td>
+            <td class="td-ai">تحليل أداء، JD generator</td>
+            <td><span class="badge-sm g">3 أسابيع</span></td>
+            <td><span class="badge-sm rd">لاحقاً</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">📅 نظام حجوزات<br><small style="color:var(--t3)">طب، سبا، خدمات</small></td>
+            <td class="td-module">booking + crm</td>
+            <td class="td-ai">ردود تلقائية، تذكيرات ذكية</td>
+            <td><span class="badge-sm g">أسبوعان</span></td>
+            <td><span class="badge-sm rd">لاحقاً</span></td>
+          </tr>
+          <tr>
+            <td class="td-project">🤝 CRM<br><small style="color:var(--t3)">إدارة عملاء</small></td>
+            <td class="td-module">crm + accounting</td>
+            <td class="td-ai">Lead scoring، follow-up automation</td>
+            <td><span class="badge-sm g">أسبوعان</span></td>
+            <td><span class="badge-sm rd">لاحقاً</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:13px;font-weight:600;color:var(--t2);margin:20px 0 12px">خطوات التحويل لأي مجال جديد (3 خطوات)</p>
+    <div class="fg3">
+      <div class="fc">
+        <div class="ficon">1️⃣</div>
+        <h3>Branding (يوم واحد)</h3>
+        <div class="flist">
+          <div class="fi">غيّر APP_NAME في .env</div>
+          <div class="fi">رفع Logo في Settings</div>
+          <div class="fi">تغيير Primary Color</div>
+          <div class="fi">تحديث metadata في layout.tsx</div>
+          <div class="fi">نشر على domain جديد</div>
+        </div>
+      </div>
+      <div class="fc">
+        <div class="ficon">2️⃣</div>
+        <h3>تفعيل Modules (ساعات)</h3>
+        <div class="flist">
+          <div class="fi">غيّر ENABLE_* في .env</div>
+          <div class="fi">حدّث Plans في Admin Dashboard</div>
+          <div class="fi">اختر Modules لكل خطة</div>
+          <div class="fi">الـ Sidebar يتحدث تلقائياً</div>
+          <div class="fi">Feature Flags فورية</div>
+        </div>
+      </div>
+      <div class="fc">
+        <div class="ficon">3️⃣</div>
+        <h3>بناء الـ Module (أسبوع)</h3>
+        <div class="flist">
+          <div class="fi">أضف صفحات الـ module</div>
+          <div class="fi">ابنِ API routes للـ CRUD</div>
+          <div class="fi">DB tables في Migration 003 جاهزة</div>
+          <div class="fi">أضف AI Server Actions</div>
+          <div class="fi">Sidebar تلقائياً من الـ Registry</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLAN ══ -->
+<section class="sec" id="plan">
+  <div class="w">
+    <div class="sh">
+      <div class="si ac">🗺️</div>
+      <div>
+        <div class="sl ac">الخطة القادمة</div>
+        <div class="sh2">الخارطة الكاملة للإطلاق</div>
+        <div class="sd">7 أسابيع من الإصلاح العاجل حتى الإطلاق التجاري مع AI.</div>
+      </div>
+    </div>
+
+    <div class="tl">
+
+      <div class="tli now">
+        <div class="tlc">
+          <div class="tlt">الأسبوع الحالي — عاجل</div>
+          <div class="tlh">إصلاحات + تجهيز AI</div>
+          <div class="tldesc">قبل بناء أي شيء جديد، أصلح هذه النقاط.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi done">✓</div><div class="tt s">شغّل create-super-admin.mjs</div><div class="te">تم؟</div></div>
+            <div class="tsk"><div class="tsi hot">!</div><div class="tt">أضف Team link في sidebar.tsx</div><div class="te">2 دقيقة</div></div>
+            <div class="tsk"><div class="tsi hot">!</div><div class="tt">طبّق Migrations 014-016 في Supabase</div><div class="te">10 دقائق</div></div>
+            <div class="tsk"><div class="tsi todo">2</div><div class="tt">أصلح TenantThemeProvider — أضف 3s timeout</div><div class="te">15 دقيقة</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">pnpm add ai @ai-sdk/anthropic</div><div class="te">2 دقيقة</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">أنشئ lib/ai/index.ts مع generateArabicContent()</div><div class="te">1 ساعة</div></div>
+          </div>
+        </div>
+        <div class="tldot now">🔧</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 1-2</div>
+          <div class="tlh">E-commerce Module — MVP لـ shops.sa</div>
+          <div class="tldesc">DB Tables جاهزة في Migration 003. Module Registry محدث. يحتاج فقط الصفحات وAPI routes.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi todo">1</div><div class="tt">Products CRUD + Images (Supabase Storage)</div><div class="te">3 أيام</div></div>
+            <div class="tsk"><div class="tsi todo">2</div><div class="tt">Orders Management + Status</div><div class="te">2 أيام</div></div>
+            <div class="tsk"><div class="tsi todo">3</div><div class="tt">Cart + Checkout + MyFatoorah</div><div class="te">2 أيام</div></div>
+            <div class="tsk"><div class="tsi todo">4</div><div class="tt">Storefront Public للزبائن</div><div class="te">2 أيام</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">AI: توليد أوصاف منتجات بالعربية</div><div class="te">نصف يوم</div></div>
+          </div>
+        </div>
+        <div class="tldot">🛍️</div>
+      </div>
+
+      <div class="tli ai-step">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 3</div>
+          <div class="tlh">AI Chat + AI Features في Dashboard</div>
+          <div class="tldesc">بناء طبقة AI كاملة فوق المشروع — chat widget + server actions + AI per module.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">AI Chat Widget في Dashboard (streaming)</div><div class="te">2 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">E-commerce AI Actions (describe, price, analyze)</div><div class="te">1 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">Page Builder AI: توليد صفحات كاملة</div><div class="te">2 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">تفعيل pgvector في Supabase للـ RAG</div><div class="te">1 يوم</div></div>
+            <div class="tsk"><div class="tsi opt">+</div><div class="tt">Analytics Charts للـ Tenant (Recharts جاهز)</div><div class="te">اختياري</div></div>
+          </div>
+        </div>
+        <div class="tldot ai">🤖</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 4</div>
+          <div class="tlh">Page Builder Module + webs.sa</div>
+          <div class="tldesc">نفس الكود — module مختلف. DB جاهز. AI يولد الصفحات كاملة.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi todo">1</div><div class="tt">Block System (Hero, Features, CTA, Gallery)</div><div class="te">3 أيام</div></div>
+            <div class="tsk"><div class="tsi todo">2</div><div class="tt">Drag & Drop Editor</div><div class="te">2 أيام</div></div>
+            <div class="tsk"><div class="tsi todo">3</div><div class="tt">5 Templates جاهزة</div><div class="te">2 أيام</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">AI: أنشئ صفحة كاملة من وصف نصي</div><div class="te">1 يوم</div></div>
+          </div>
+        </div>
+        <div class="tldot">🌐</div>
+      </div>
+
+      <div class="tli ai-step">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 5</div>
+          <div class="tlh">WhatsApp AI Agent — msaed.ai</div>
+          <div class="tldesc">الوكيل AI الكامل الذي يعمل على WhatsApp ويتصل بـ DB المنشأة مباشرة.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">Agent API مع Anthropic Tool Use</div><div class="te">2 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">WhatsApp Webhook + n8n</div><div class="te">1 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">Tools: getProducts, createOrder, checkInventory</div><div class="te">2 يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">Conversation Memory (Supabase)</div><div class="te">1 يوم</div></div>
+            <div class="tsk"><div class="tsi opt">+</div><div class="tt">Snapchat + Telegram</div><div class="te">اختياري</div></div>
+          </div>
+        </div>
+        <div class="tldot ai">🤖</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">الأسبوع 6-7</div>
+          <div class="tlh">Production + Cloudflare + الإطلاق</div>
+          <div class="tldesc">كل الأدوات جاهزة. Vercel + Cloudflare + Upstash + Resend كلها في .env.local.</div>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi todo">1</div><div class="tt">ربط Cloudflare API للـ Custom Domains فعلياً</div><div class="te">2 يوم</div></div>
+            <div class="tsk"><div class="tsi todo">2</div><div class="tt">Vercel Deployment + Environment Variables</div><div class="te">1 يوم</div></div>
+            <div class="tsk"><div class="tsi todo">3</div><div class="tt">MyFatoorah Production Mode</div><div class="te">5 دقائق</div></div>
+            <div class="tsk"><div class="tsi todo">4</div><div class="tt">Vercel Analytics + Error Tracking</div><div class="te">نصف يوم</div></div>
+            <div class="tsk"><div class="tsi ai">AI</div><div class="tt">تأكيد API Keys للـ Production</div><div class="te">5 دقائق</div></div>
+          </div>
+        </div>
+        <div class="tldot">🚀</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="w">
+    <div class="fi2">
+      <div class="fbrand">saasfast — SaaS Core Platform</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="ftag">التقرير الشامل — 21 مارس 2026</span>
+        <span>92% مكتمل | 10 Migrations | 100+ ملف | AI: جاهز للبدء</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تقرير ميزات SaaS Core — saasfast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07091f;--bg2:#0b0f20;--surface:#141c30;--surface2:#19223a;
+  --border:rgba(80,110,255,.09);--border2:rgba(80,110,255,.18);
+  --text:#e4e9f8;--text2:#8595c4;--text3:#4d5f88;
+  --accent:#4f7aff;--accent2:#6d93ff;
+  --green:#1ec97a;--gbg:rgba(30,201,122,.08);--gborder:rgba(30,201,122,.2);
+  --amber:#f5a722;--abg:rgba(245,167,34,.08);--aborder:rgba(245,167,34,.2);
+  --red:#ff4f6b;--rbg:rgba(255,79,107,.08);--rborder:rgba(255,79,107,.2);
+  --purple:#a78bfa;--pbg:rgba(167,139,250,.08);--pborder:rgba(167,139,250,.2);
+  --teal:#2dd4bf;--tbg:rgba(45,212,191,.08);--tborder:rgba(45,212,191,.2);
+  --blue:#60a5fa;--bbg:rgba(96,165,250,.08);--bborder:rgba(96,165,250,.2);
+  --font:'IBM Plex Sans Arabic',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.7;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,121,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(79,121,255,.02) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,9,31,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-i{display:flex;align-items:center;justify-content:space-between;padding:13px 28px;max-width:1100px;margin:0 auto;gap:16px}
+.logo{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo .dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:blink 2.2s ease-in-out infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-links{display:flex;gap:18px;list-style:none;flex-wrap:wrap}
+.nav-links a{color:var(--text3);text-decoration:none;font-size:12px;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--text)}
+.nbadge{background:var(--gbg);color:var(--green);border:1px solid var(--gborder);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;white-space:nowrap}
+
+/* HERO */
+.hero{padding:72px 0 52px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:320px;background:radial-gradient(ellipse,rgba(79,121,255,.08) 0%,transparent 70%);pointer-events:none}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:5px 15px;font-size:12px;color:var(--accent2);margin-bottom:20px;letter-spacing:.04em}
+.hero h1{font-size:46px;font-weight:700;line-height:1.13;margin-bottom:16px;background:linear-gradient(135deg,#e4e9f8 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:16px;color:var(--text2);max-width:620px;margin-bottom:32px}
+.hmeta{display:flex;gap:32px;flex-wrap:wrap}
+.hm .lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.hm .val{font-size:24px;font-weight:700}
+.hm .val.g{color:var(--green)}.hm .val.am{color:var(--amber)}.hm .val.p{color:var(--purple)}.hm .val.t{color:var(--teal)}
+.hm .sub{font-size:12px;font-weight:400;color:var(--text2)}
+
+/* SUMMARY STATS */
+.summary{padding:52px 0;border-top:1px solid var(--border)}
+.srow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center}
+.sn{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.sn.g{color:var(--green)}.sn.am{color:var(--amber)}.sn.r{color:var(--red)}.sn.t{color:var(--teal)}.sn.p{color:var(--purple)}
+.sl{font-size:12px;color:var(--text3)}
+
+/* SECTION */
+.sec{padding:52px 0;border-top:1px solid var(--border)}
+.sec-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);margin-bottom:8px}
+.sec-h{font-size:26px;font-weight:700;margin-bottom:7px}
+.sec-d{color:var(--text2);margin-bottom:32px;max-width:600px}
+
+/* TIER HEADER */
+.tier-hdr{border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;border:1px solid}
+.tier-hdr.t1{background:linear-gradient(135deg,rgba(255,79,107,.06) 0%,var(--surface) 100%);border-color:var(--rborder)}
+.tier-hdr.t2{background:linear-gradient(135deg,rgba(245,167,34,.06) 0%,var(--surface) 100%);border-color:var(--aborder)}
+.tier-hdr.t3{background:linear-gradient(135deg,rgba(96,165,250,.06) 0%,var(--surface) 100%);border-color:var(--bborder)}
+.tier-hdr.t4{background:linear-gradient(135deg,rgba(45,212,191,.06) 0%,var(--surface) 100%);border-color:var(--tborder)}
+.tier-hdr h2{font-size:17px;font-weight:700}
+.tier-hdr.t1 h2{color:var(--red)}.tier-hdr.t2 h2{color:var(--amber)}.tier-hdr.t3 h2{color:var(--blue)}.tier-hdr.t4 h2{color:var(--teal)}
+.tier-hdr .tsub{font-size:12px;color:var(--text3);margin-top:3px}
+.tier-pct{font-size:22px;font-weight:700;font-family:var(--mono)}
+.tier-pct.t1{color:var(--green)}.tier-pct.t2{color:var(--amber)}.tier-pct.t3{color:var(--blue)}.tier-pct.t4{color:var(--teal)}
+
+/* FEATURES GRID */
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:40px}
+.fc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.fc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.fc.done{border-color:var(--gborder);background:linear-gradient(135deg,rgba(30,201,122,.04) 0%,var(--surface) 100%)}
+.fc.partial{border-color:var(--aborder);background:linear-gradient(135deg,rgba(245,167,34,.04) 0%,var(--surface) 100%)}
+.fc.todo{opacity:.6}
+.fc.new-feat{border-color:var(--pborder)}
+.fc::before{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;border-radius:0 14px 14px 0}
+.fc.done::before{background:var(--green)}
+.fc.partial::before{background:var(--amber)}
+.fc.todo::before{background:var(--text3)}
+.fc.new-feat::before{background:var(--purple)}
+
+.fc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
+.fc-title{font-size:14px;font-weight:600;flex:1}
+.fc-badge{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.fc-badge.done{background:var(--gbg);color:var(--green);border:1px solid var(--gborder)}
+.fc-badge.partial{background:var(--abg);color:var(--amber);border:1px solid var(--aborder)}
+.fc-badge.todo{background:rgba(255,255,255,.04);color:var(--text3);border:1px solid rgba(255,255,255,.1)}
+.fc-badge.new{background:var(--pbg);color:var(--purple);border:1px solid var(--pborder)}
+
+.fc-desc{font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.5}
+.fc-files{display:flex;flex-direction:column;gap:4px}
+.fc-file{font-size:11px;font-family:var(--mono);color:var(--text3);padding:3px 7px;background:rgba(255,255,255,.03);border-radius:4px;border:1px solid rgba(255,255,255,.05)}
+.fc-file.g{color:var(--green);background:var(--gbg);border-color:var(--gborder)}
+.fc-file.new{color:var(--purple);background:var(--pbg);border-color:var(--pborder)}
+.fc-missing{font-size:12px;color:var(--red);margin-top:6px;padding:5px 8px;background:var(--rbg);border-radius:6px;border:1px solid var(--rborder)}
+
+/* NEW ADDITIONS BANNER */
+.new-banner{background:linear-gradient(135deg,rgba(167,139,250,.07) 0%,rgba(79,121,255,.04) 100%);border:1px solid var(--pborder);border-radius:14px;padding:22px 24px;margin-bottom:28px;display:flex;gap:16px;align-items:flex-start}
+.nb-icon{font-size:24px;flex-shrink:0}
+.nb h3{font-size:15px;font-weight:700;color:var(--purple);margin-bottom:6px}
+.nb p{font-size:13px;color:var(--text2);line-height:1.6}
+.nb-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.nbtag{padding:3px 10px;border-radius:20px;font-size:11px;border:1px solid var(--pborder);color:var(--purple);background:var(--pbg)}
+
+/* ROADMAP */
+.rmgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.rmc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+.rmc h3{font-size:15px;font-weight:700;margin-bottom:12px}
+.rm-items{display:flex;flex-direction:column;gap:8px}
+.rmi{display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.02)}
+.rmi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rmi-dot.g{background:var(--green)}.rmi-dot.am{background:var(--amber)}.rmi-dot.r{background:var(--red)}.rmi-dot.t{background:var(--teal)}.rmi-dot.p{background:var(--purple)}
+.rmi-txt{color:var(--text2);flex:1}
+.rmi-eta{font-size:11px;font-family:var(--mono);color:var(--text3)}
+
+/* PROGRESS OVERVIEW */
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:32px}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.pc.done{border-color:var(--gborder)}
+.pc.active{border-color:var(--aborder)}
+.pc.todo{opacity:.5}
+.pc-n{font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.pc-name{font-size:14px;font-weight:600;margin-bottom:12px}
+.bwrap{height:3px;background:rgba(255,255,255,.05);border-radius:2px;margin-bottom:8px;overflow:hidden}
+.bar{height:100%;border-radius:2px;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.bar.g{background:var(--green)}.bar.am{background:var(--amber)}.bar.d{background:var(--text3)}
+.pct{font-size:26px;font-weight:700;margin-bottom:2px}
+.pct.g{color:var(--green)}.pct.am{color:var(--amber)}.pct.d{color:var(--text3)}
+.psub{font-size:11px;color:var(--text3)}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:28px;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.leg-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2)}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* FOOTER */
+footer{padding:36px 0;border-top:1px solid var(--border)}
+.fi{display:flex;justify-content:space-between;align-items:center;color:var(--text3);font-size:13px;flex-wrap:wrap;gap:10px}
+.fbrand{font-size:14px;font-weight:700;color:var(--text2)}
+.ftag{background:var(--gbg);color:var(--green);border:1px solid var(--gborder);border-radius:20px;padding:3px 11px;font-size:12px}
+
+@media(max-width:768px){
+  .hero h1{font-size:30px}
+  .pgrid,.srow,.fgrid,.rmgrid{grid-template-columns:1fr}
+  .srow{grid-template-columns:repeat(3,1fr)}
+  .nav-links{display:none}
+  .fi{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-i">
+    <div class="logo"><div class="dot"></div>saasfast — SaaS Features Map</div>
+    <ul class="nav-links">
+      <li><a href="#tier1">الطبقة 1</a></li>
+      <li><a href="#tier2">الطبقة 2</a></li>
+      <li><a href="#tier3">الطبقة 3</a></li>
+      <li><a href="#tier4">الطبقة 4</a></li>
+      <li><a href="#roadmap">الخطة</a></li>
+    </ul>
+    <span class="nbadge">16 ميزة مكتملة ✓</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hbadge">
+      <div style="width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2.2s ease-in-out infinite"></div>
+      تقرير ميزات SaaS — 20 مارس 2026 — قبل تخصيص المجال
+    </div>
+    <h1>خريطة ميزات SaaS Core<br>الوضع الحالي لـ saasfast</h1>
+    <p>توثيق شامل لكل ميزة SaaS أساسية — ما تم بناؤه، ما ينقص، وخطة الأولويات. المشروع تجاوز التوقعات بمراحل.</p>
+    <div class="hmeta">
+      <div class="hm"><div class="lbl">مكتمل</div><div class="val g">16 <span class="sub">ميزة</span></div></div>
+      <div class="hm"><div class="lbl">جزئي</div><div class="val am">4 <span class="sub">ميزة</span></div></div>
+      <div class="hm"><div class="lbl">لم يبدأ</div><div class="val">9 <span class="sub">ميزة</span></div></div>
+      <div class="hm"><div class="lbl">إجمالي الطبقات</div><div class="val t">4 <span class="sub">طبقات</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="summary">
+  <div class="wrap">
+    <div class="srow">
+      <div class="sc"><div class="sn g">72%</div><div class="sl">الطبقة 1 — حرجة</div></div>
+      <div class="sc"><div class="sn am">43%</div><div class="sl">الطبقة 2 — مهمة</div></div>
+      <div class="sc"><div class="sn" style="color:var(--blue)">33%</div><div class="sl">الطبقة 3 — نمو</div></div>
+      <div class="sc"><div class="sn t">25%</div><div class="sl">الطبقة 4 — متقدمة</div></div>
+      <div class="sc"><div class="sn p">7</div><div class="sl">ملفات جديدة منذ آخر مراجعة</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="sec" id="progress">
+  <div class="wrap">
+    <div class="sec-lbl">نظرة عامة</div>
+    <h2 class="sec-h">التقدم الكامل</h2>
+    <p class="sec-d">Phase 1-3 مكتملة + إضافات ضخمة جديدة: Admin Panel، Email System، Audit Log، GDPR، Cron Jobs.</p>
+
+    <div class="new-banner">
+      <div class="nb-icon">🚀</div>
+      <div class="nb">
+        <h3>إضافات ضخمة منذ آخر مراجعة</h3>
+        <p>7 ملفات/مجلدات جديدة رُصدت في الفحص الأخير — تغطي Admin Panel كامل، 7 Email Templates، Audit Logging، GDPR Compliance، Rate Limiting، Cron Jobs للاشتراكات، وInvoice PDF.</p>
+        <div class="nb-tags">
+          <span class="nbtag">Admin Panel ✓ جديد</span>
+          <span class="nbtag">7 Email Templates ✓</span>
+          <span class="nbtag">Audit Log System ✓</span>
+          <span class="nbtag">GDPR (Export+Delete) ✓</span>
+          <span class="nbtag">Cron Jobs يومي ✓</span>
+          <span class="nbtag">Rate Limiting ✓</span>
+          <span class="nbtag">Invoice PDF ✓</span>
+          <span class="nbtag">Migrations 010-012 ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pgrid">
+      <div class="pc done">
+        <div class="pc-n">Phase 01</div><div class="pc-name">Foundation</div>
+        <div class="bwrap"><div class="bar g" style="width:100%"></div></div>
+        <div class="pct g">100%</div><div class="psub">DB + Auth + Payments + Middleware</div>
+      </div>
+      <div class="pc done">
+        <div class="pc-n">Phase 02</div><div class="pc-name">UI + Components</div>
+        <div class="bwrap"><div class="bar g" style="width:100%"></div></div>
+        <div class="pct g">100%</div><div class="psub">13 shadcn/ui + Dashboard</div>
+      </div>
+      <div class="pc done">
+        <div class="pc-n">Phase 03</div><div class="pc-name">Admin + Core SaaS</div>
+        <div class="bwrap"><div class="bar g" style="width:100%"></div></div>
+        <div class="pct g">100%</div><div class="psub">Admin Panel + Emails + GDPR + Cron</div>
+      </div>
+      <div class="pc todo">
+        <div class="pc-n">Phase 04</div><div class="pc-name">Domain Modules</div>
+        <div class="bwrap"><div class="bar d" style="width:0%"></div></div>
+        <div class="pct d">0%</div><div class="psub">E-commerce + Page Builder + ...</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>مكتمل بالكامل</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>جديد منذ آخر مراجعة</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--amber)"></div>جزئي — يحتاج إكمال</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--text3)"></div>لم يُبنَ بعد</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIER 1 -->
+<section class="sec" id="tier1">
+  <div class="wrap">
+    <div class="tier-hdr t1">
+      <div>
+        <h2>الطبقة 1 — حرجة: يحتاجها كل SaaS من اليوم الأول</h2>
+        <div class="tsub">6 ميزات — 5 مكتملة، 1 تحتاج تطوير</div>
+      </div>
+      <div class="tier-pct t1">83%</div>
+    </div>
+    <div class="fgrid">
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Identity & Auth</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">تسجيل + دخول + OAuth + JWT + session management</div>
+        <div class="fc-files">
+          <div class="fc-file g">lib/auth-options.ts</div>
+          <div class="fc-file g">app/auth/signin/page.tsx</div>
+          <div class="fc-file g">app/auth/signup/page.tsx</div>
+          <div class="fc-file g">components/auth-provider.tsx</div>
+        </div>
+      </div>
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Billing & Plans</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">3 خطط + MyFatoorah + فواتير PDF + trial 14 يوم</div>
+        <div class="fc-files">
+          <div class="fc-file g">lib/myfatoorah.ts</div>
+          <div class="fc-file g">app/api/payments/ (3 routes)</div>
+          <div class="fc-file g">app/(tenant)/dashboard/billing/</div>
+          <div class="fc-file g">components/invoice-pdf-template.tsx ★</div>
+        </div>
+      </div>
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Multi-tenancy</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">عزل بيانات + subdomain routing + custom domain support</div>
+        <div class="fc-files">
+          <div class="fc-file g">middleware.ts (313 سطر)</div>
+          <div class="fc-file g">lib/tenant.ts (269 سطر)</div>
+          <div class="fc-file g">supabase/migrations/ (RLS على كل جدول)</div>
+        </div>
+      </div>
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Onboarding Flow</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">wizard إنشاء منشأة + redirect تلقائي + Arabic slug</div>
+        <div class="fc-files">
+          <div class="fc-file g">app/onboarding/page.tsx</div>
+          <div class="fc-file g">app/api/tenants/create/route.ts</div>
+        </div>
+        <div class="fc-missing">ينقص: progress steps / checklist بصري</div>
+      </div>
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Super Admin Panel</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">لوحة تحكم المنصة — Tenants + Plans + Subscriptions + Revenue</div>
+        <div class="fc-files">
+          <div class="fc-file new">app/admin/page.tsx ★</div>
+          <div class="fc-file new">app/admin/tenants/page.tsx ★</div>
+          <div class="fc-file new">app/admin/plans/page.tsx ★</div>
+          <div class="fc-file new">app/admin/subscriptions/page.tsx ★</div>
+          <div class="fc-file new">app/admin/layout.tsx ★</div>
+        </div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Team Management</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">دعوة أعضاء + أدوار (owner/admin/member) + صلاحيات مخصصة</div>
+        <div class="fc-missing">الجداول موجودة في DB (tenant_users + roles). يحتاج: صفحة الفريق + API الدعوة + بريد الدعوة</div>
+        <div class="fc-files">
+          <div class="fc-file">lib/emails/templates/invitation.tsx ✓ جاهز</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TIER 2 -->
+<section class="sec" id="tier2">
+  <div class="wrap">
+    <div class="tier-hdr t2">
+      <div>
+        <h2>الطبقة 2 — مهمة: تحسين التجربة والاحتفاظ</h2>
+        <div class="tsub">7 ميزات — 3 مكتملة، 1 جزئي، 3 لم تُبنَ</div>
+      </div>
+      <div class="tier-pct t2">43%</div>
+    </div>
+    <div class="fgrid">
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Notifications System</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">7 قوالب إيميل + Resend integration + notification_logs في DB</div>
+        <div class="fc-files">
+          <div class="fc-file new">lib/emails/templates/welcome.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/trial-ending.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/invitation.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/payment-success.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/payment-failed.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/subscription-cancelled.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/subscription-expired.tsx ★</div>
+          <div class="fc-file new">migrations/010_subscription_notifications.sql ★</div>
+        </div>
+      </div>
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Audit Log</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">سجل كل عملية: من فعل ماذا متى + IP + old/new values</div>
+        <div class="fc-files">
+          <div class="fc-file new">lib/audit.ts (171 سطر) ★</div>
+          <div class="fc-file new">migrations/012_audit_logs.sql ★</div>
+        </div>
+      </div>
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Usage & Limits</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">حدود الخطة على كل resource + plan limits check تلقائي</div>
+        <div class="fc-files">
+          <div class="fc-file g">lib/tenant.ts → canAccessFeature()</div>
+          <div class="fc-file g">lib/tenant.ts → getPlanLimits()</div>
+          <div class="fc-file g">lib/tenant.ts → getResourceCount()</div>
+        </div>
+      </div>
+
+      <div class="fc partial">
+        <div class="fc-head"><div class="fc-title">Custom Domain</div><span class="fc-badge partial">جزئي</span></div>
+        <div class="fc-desc">Middleware يدعمه كاملاً — ينقص UI وCloudflare automation</div>
+        <div class="fc-files">
+          <div class="fc-file g">middleware.ts → resolveTenant() يدعم custom domain</div>
+          <div class="fc-file">tenant_domains table في DB</div>
+        </div>
+        <div class="fc-missing">ينقص: صفحة ربط الدومين + Cloudflare API integration</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Settings Page</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">إعدادات المنشأة: اسم، لوغو، ألوان، إعدادات متقدمة</div>
+        <div class="fc-missing">يحتاج بناء كامل: /dashboard/settings + API</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">White-label</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">لوغو مخصص + ألوان + اسم المنصة مخصص لكل tenant</div>
+        <div class="fc-missing">البنية موجودة في settings JSONB — يحتاج UI + CSS variables dynamic</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Customer Support</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">help center + دعم مدمج أو تكامل مع Intercom/Crisp</div>
+        <div class="fc-missing">لا يوجد حالياً — يمكن إضافة Crisp chat script كحل سريع</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TIER 3 -->
+<section class="sec" id="tier3">
+  <div class="wrap">
+    <div class="tier-hdr t3">
+      <div>
+        <h2>الطبقة 3 — نمو: تساعد على التوسع والاستبقاء</h2>
+        <div class="tsub">6 ميزات — 2 مكتملة، 1 جزئي، 3 لم تُبنَ</div>
+      </div>
+      <div class="tier-pct t3">33%</div>
+    </div>
+    <div class="fgrid">
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Dunning Management</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">إدارة تلقائية لفشل الدفع + تعليق الحسابات + إيميلات تلقائية</div>
+        <div class="fc-files">
+          <div class="fc-file new">app/api/cron/subscriptions/route.ts ★ (357 سطر)</div>
+          <div class="fc-file new">lib/emails/templates/payment-failed.tsx ★</div>
+          <div class="fc-file new">lib/emails/templates/subscription-expired.tsx ★</div>
+        </div>
+        <div style="font-size:11px;color:var(--green);margin-top:8px;padding:4px 7px;background:var(--gbg);border-radius:5px;border:1px solid var(--gborder)">Vercel Cron: 0 2 * * * (يومياً الساعة 2 صباحاً)</div>
+      </div>
+
+      <div class="fc done">
+        <div class="fc-head"><div class="fc-title">Feature Flags</div><span class="fc-badge done">مكتمل</span></div>
+        <div class="fc-desc">تفعيل/تعطيل وحدات بشكل مستقل عبر .env flags</div>
+        <div class="fc-files">
+          <div class="fc-file g">ENABLE_ECOMMERCE_MODULE=true</div>
+          <div class="fc-file g">ENABLE_PAGE_BUILDER_MODULE=false</div>
+          <div class="fc-file g">lib/module-registry.ts (7 وحدات)</div>
+        </div>
+      </div>
+
+      <div class="fc partial">
+        <div class="fc-head"><div class="fc-title">Analytics</div><span class="fc-badge partial">جزئي</span></div>
+        <div class="fc-desc">Dashboard folder موجود — يحتاج charts و reports كاملة</div>
+        <div class="fc-files">
+          <div class="fc-file g">app/(tenant)/dashboard/analytics/ (مجلد)</div>
+          <div class="fc-file g">Admin page: إجمالي tenants + revenue + subscriptions</div>
+        </div>
+        <div class="fc-missing">ينقص: Recharts charts + تقارير مخصصة للـ tenant</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Referral Program</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">دعوة أصدقاء + تتبع إحالات + خصومات تلقائية</div>
+        <div class="fc-missing">يحتاج: جدول referrals + tracking links + discount automation</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Announcements</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">إشعارات المنصة للمستخدمين + changelog updates</div>
+        <div class="fc-missing">حل بسيط: banner component + جدول announcements في DB</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Impersonation</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">دخول الأدمن كـ tenant للدعم الفني بدون كلمة مرور</div>
+        <div class="fc-missing">يحتاج: Admin API + temporary token + audit log entry</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TIER 4 -->
+<section class="sec" id="tier4">
+  <div class="wrap">
+    <div class="tier-hdr t4">
+      <div>
+        <h2>الطبقة 4 — متقدمة: للمنافسة مع كبار اللاعبين</h2>
+        <div class="tsub">7 ميزات — 2 مكتملة، 1 جزئي، 4 لم تُبنَ</div>
+      </div>
+      <div class="tier-pct t4">29%</div>
+    </div>
+    <div class="fgrid">
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Data Export (GDPR)</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">تصدير + حذف بيانات المستخدم + consent records + compliance كامل</div>
+        <div class="fc-files">
+          <div class="fc-file new">app/api/gdpr/export/route.ts ★</div>
+          <div class="fc-file new">app/api/gdpr/delete/route.ts ★</div>
+          <div class="fc-file new">app/api/gdpr/consent/route.ts ★</div>
+          <div class="fc-file new">migrations/011_gdpr_tables.sql ★</div>
+        </div>
+      </div>
+
+      <div class="fc done new-feat">
+        <div class="fc-head"><div class="fc-title">Rate Limiting</div><span class="fc-badge new">جديد ★</span></div>
+        <div class="fc-desc">حماية API من abuse — Auth + Payments + API routes (Upstash Redis)</div>
+        <div class="fc-files">
+          <div class="fc-file new">lib/rate-limit.ts ★ (202 سطر)</div>
+          <div class="fc-file new">rateLimiters: auth (5/min) + payments + api + global</div>
+        </div>
+      </div>
+
+      <div class="fc partial">
+        <div class="fc-head"><div class="fc-title">API & Webhooks</div><span class="fc-badge partial">جزئي</span></div>
+        <div class="fc-desc">Payment webhook موجود — ينقص Public API للـ tenants</div>
+        <div class="fc-files">
+          <div class="fc-file g">app/api/payments/webhook/route.ts</div>
+        </div>
+        <div class="fc-missing">ينقص: Public REST API + API Keys management + Webhook builder</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">MFA & Security</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">Two-Factor Auth + IP allowlist + security settings</div>
+        <div class="fc-missing">Supabase Auth يدعم TOTP — يحتاج UI فقط</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">SSO / SAML</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">Enterprise login عبر Google Workspace / Azure AD</div>
+        <div class="fc-missing">Supabase يدعم SAML — ميزة Enterprise فقط</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">App Marketplace</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">تكاملات خارجية + Zapier/n8n connectors</div>
+        <div class="fc-missing">قابل للبناء عبر Webhooks + OAuth apps — مرحلة متأخرة</div>
+      </div>
+
+      <div class="fc todo">
+        <div class="fc-head"><div class="fc-title">Usage-based Billing</div><span class="fc-badge todo">لم يُبنَ</span></div>
+        <div class="fc-desc">فوترة حسب الاستخدام (API calls, storage, seats)</div>
+        <div class="fc-missing">يحتاج: usage_metrics table + billing calculator + MyFatoorah metered</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="sec" id="roadmap">
+  <div class="wrap">
+    <div class="sec-lbl">الأولويات</div>
+    <h2 class="sec-h">خطة الإنجاز حسب الأهمية</h2>
+    <p class="sec-d">مرتبة حسب الأثر على الإطلاق التجاري لـ shops.sa وwebs.sa.</p>
+    <div class="rmgrid">
+
+      <div class="rmc">
+        <h3 style="color:var(--red)">هذا الأسبوع — قبل Phase 4</h3>
+        <div class="rm-items">
+          <div class="rmi"><div class="rmi-dot am"></div><div class="rmi-txt">Team Management — صفحة الفريق + Invite API</div><div class="rmi-eta">3 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot am"></div><div class="rmi-txt">Settings Page — إعدادات المنشأة الأساسية</div><div class="rmi-eta">2 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot am"></div><div class="rmi-txt">Analytics Charts — Recharts في dashboard</div><div class="rmi-eta">2 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot r"></div><div class="rmi-txt">اختبار E2E كامل لـ Signup → Dashboard</div><div class="rmi-eta">يوم</div></div>
+        </div>
+      </div>
+
+      <div class="rmc">
+        <h3 style="color:var(--amber)">الأسبوع 1-2 — E-commerce Module</h3>
+        <div class="rm-items">
+          <div class="rmi"><div class="rmi-dot g"></div><div class="rmi-txt">Products CRUD + Image Upload</div><div class="rmi-eta">3 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot g"></div><div class="rmi-txt">Orders Management + Status</div><div class="rmi-eta">2 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot g"></div><div class="rmi-txt">Cart + Checkout + MyFatoorah</div><div class="rmi-eta">2 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot g"></div><div class="rmi-txt">Storefront Public Page</div><div class="rmi-eta">2 أيام</div></div>
+        </div>
+      </div>
+
+      <div class="rmc">
+        <h3 style="color:var(--blue)">الأسبوع 3 — إطلاق shops.sa</h3>
+        <div class="rm-items">
+          <div class="rmi"><div class="rmi-dot t"></div><div class="rmi-txt">Custom Domain UI + Cloudflare API</div><div class="rmi-eta">2 أيام</div></div>
+          <div class="rmi"><div class="rmi-dot t"></div><div class="rmi-txt">White-label: لوغو + ألوان مخصصة</div><div class="rmi-eta">يوم</div></div>
+          <div class="rmi"><div class="rmi-dot t"></div><div class="rmi-txt">Vercel Deployment + CI/CD</div><div class="rmi-eta">يوم</div></div>
+          <div class="rmi"><div class="rmi-dot t"></div><div class="rmi-txt">اختبار مع 3 عملاء أوائل</div><div class="rmi-eta">أسبوع</div></div>
+        </div>
+      </div>
+
+      <div class="rmc">
+        <h3 style="color:var(--purple)">الشهر 2 — نمو وتوسع</h3>
+        <div class="rm-items">
+          <div class="rmi"><div class="rmi-dot p"></div><div class="rmi-txt">Announcements / Changelog system</div><div class="rmi-eta">يوم</div></div>
+          <div class="rmi"><div class="rmi-dot p"></div><div class="rmi-txt">Impersonation للدعم الفني</div><div class="rmi-eta">يوم</div></div>
+          <div class="rmi"><div class="rmi-dot p"></div><div class="rmi-txt">MFA — Supabase TOTP UI</div><div class="rmi-eta">يومان</div></div>
+          <div class="rmi"><div class="rmi-dot p"></div><div class="rmi-txt">Referral Program</div><div class="rmi-eta">أسبوع</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fi">
+      <div class="fbrand">saasfast — SaaS Core Platform</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
+        <span class="ftag">16 ميزة مكتملة — 20 مارس 2026</span>
+        <span>Next.js 14 · Supabase · MyFatoorah · 7 Modules</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.bar').forEach(b=>{
+    const w=b.style.width;b.style.width='0';
+    setTimeout(()=>{b.style.width=w},400);
+  });
+});
+</script>
+</body>
+</html>

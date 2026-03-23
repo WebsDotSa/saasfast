@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SaaS Core — خطة تكامل الذكاء الاصطناعي</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06081c;--bg2:#0a0d1f;--sf:#101525;--sf2:#151d30;
+  --bd:rgba(80,115,255,.09);--bd2:rgba(80,115,255,.2);
+  --t:#e3e9f7;--t2:#8190be;--t3:#4a5a82;
+  --a:#4f7aff;--a2:#6d94ff;
+  --g:#19c97a;--gbg:rgba(25,201,122,.07);--gbd:rgba(25,201,122,.18);
+  --am:#f5a620;--abg:rgba(245,166,32,.07);--abd:rgba(245,166,32,.18);
+  --rd:#ff4d6a;--rbg:rgba(255,77,106,.07);--rbd:rgba(255,77,106,.18);
+  --pu:#a57dfb;--pbg:rgba(165,125,251,.07);--pbd:rgba(165,125,251,.18);
+  --tl:#2dd2bf;--tbg:rgba(45,210,191,.07);--tbd:rgba(45,210,191,.2);
+  --ai:#ff6b2b;--aibg:rgba(255,107,43,.07);--aibd:rgba(255,107,43,.2);
+  --font:'IBM Plex Sans Arabic',sans-serif;--mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--font);font-size:15px;line-height:1.7;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(80,115,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(80,115,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+.w{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(6,8,28,.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd)}
+.ni{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;max-width:1200px;margin:0 auto;gap:16px}
+.logo{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo .dot{width:7px;height:7px;background:var(--ai);border-radius:50%;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.nl{display:flex;gap:16px;list-style:none}
+.nl a{color:var(--t3);text-decoration:none;font-size:12px;transition:color .2s;white-space:nowrap}.nl a:hover{color:var(--t)}
+.nbadges{display:flex;gap:8px;flex-shrink:0}
+.nb{border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600;border:1px solid;white-space:nowrap}
+.nb.g{background:var(--gbg);color:var(--g);border-color:var(--gbd)}
+.nb.ai{background:var(--aibg);color:var(--ai);border-color:var(--aibd)}
+
+/* HERO */
+.hero{padding:68px 0 52px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:720px;height:300px;background:radial-gradient(ellipse,rgba(255,107,43,.09) 0%,transparent 70%);pointer-events:none}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:var(--sf);border:1px solid var(--bd2);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--ai);margin-bottom:20px;letter-spacing:.04em}
+h1{font-size:44px;font-weight:700;line-height:1.12;margin-bottom:16px;background:linear-gradient(135deg,#e3e9f7 0%,var(--ai) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.herop{font-size:16px;color:var(--t2);max-width:700px;margin-bottom:32px}
+.hmeta{display:flex;gap:32px;flex-wrap:wrap}
+.hm .lb{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.hm .vl{font-size:24px;font-weight:700}
+.hm .vl.g{color:var(--g)}.hm .vl.ai{color:var(--ai)}.hm .vl.pu{color:var(--pu)}.hm .vl.tl{color:var(--tl)}
+.hm .sb{font-size:12px;font-weight:400;color:var(--t2)}
+
+/* SECTIONS */
+.sec{padding:52px 0;border-top:1px solid var(--bd)}
+.sh{display:flex;align-items:flex-start;gap:14px;margin-bottom:28px}
+.si{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;margin-top:2px}
+.si.g{background:var(--gbg)}.si.ai{background:var(--aibg)}.si.pu{background:var(--pbg)}.si.tl{background:var(--tbg)}
+.sl{font-size:11px;text-transform:uppercase;letter-spacing:.15em;margin-bottom:5px}
+.sl.g{color:var(--g)}.sl.ai{color:var(--ai)}.sl.pu{color:var(--pu)}.sl.tl{color:var(--tl)}
+.sh2{font-size:24px;font-weight:700;margin-bottom:4px}
+.sd{font-size:14px;color:var(--t2)}
+
+/* COUNTERS */
+.sg4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:32px}
+.sg3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.scard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;text-align:center}
+.snum{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.snum.g{color:var(--g)}.snum.ai{color:var(--ai)}.snum.tl{color:var(--tl)}.snum.pu{color:var(--pu)}
+.slbl{font-size:12px;color:var(--t3)}
+
+/* GRIDS */
+.fg3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* CARDS */
+.fc{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.fc:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.fc.ai-card{border-color:rgba(255,107,43,.22)}
+.fc.ai-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,43,.04) 0%,transparent 55%);pointer-events:none}
+.fbdg{position:absolute;top13px;left:13px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:600;text-transform:uppercase;border:1px solid}
+.fbdg.ai{background:var(--aibg);color:var(--ai);border-color:var(--aibd)}
+.ficon{font-size:21px;margin-bottom:9px;margin-top:22px}
+.fc h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.fcsub{font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.5}
+.flist{display:flex;flex-direction:column;gap:5px}
+.fi{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:var(--t2)}
+.fi::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0;margin-top:1px}
+.fp{margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.04);font-family:var(--mono);font-size:11px;color:var(--t3);display:flex;flex-wrap:wrap;gap:3px}
+.fp span{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:4px;padding:1px 5px}
+
+/* ARCHITECTURE */
+.arch{background:var(--sf2);border:1px solid var(--bd2);border-radius:16px;padding:26px;margin-bottom:24px;font-family:var(--mono);font-size:12px;line-height:2;overflow-x:auto}
+.arch-layer{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;margin-bottom:8px}
+.arch-arrow{text-align:center;color:var(--t3);font-size:14px;padding:4px}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;position:relative}
+.tl::before{content:'';position:absolute;right:22px;top:26px;bottom:26px;width:1px;background:linear-gradient(to bottom,var(--ai),transparent);opacity:.2}
+.tli{display:grid;grid-template-columns:1fr 52px;gap:18px;align-items:start;padding-bottom:22px}
+.tlc{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;transition:border-color .2s}
+.tli.now .tlc{border-color:rgba(255,107,43,.3);background:linear-gradient(135deg,rgba(255,107,43,.04) 0%,var(--sf) 100%)}
+.tldot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid var(--bd);background:var(--bg2);flex-shrink:0;margin-top:12px}
+.tldot.ai{border-color:var(--ai);background:var(--aibg);box-shadow:0 0 12px rgba(255,107,43,.12)}
+.tlt{font-size:11px;font-family:var(--mono);color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.tlh{font-size:17px;font-weight:700;margin-bottom:5px}
+.tldesc{font-size:13px;color:var(--t2);margin-bottom:14px}
+.tsks{display:flex;flex-direction:column;gap:5px}
+.tsk{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;border-radius:7px;background:rgba(255,255,255,.022)}
+.tsi{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.tsi.todo{background:var(--ai);color:white}
+.tsi.opt{background:rgba(255,255,255,.04);color:var(--t3)}
+.tt{color:var(--t2);flex:1}
+.te{font-size:11px;font-family:var(--mono);color:var(--t3)}
+
+/* BANNER */
+.banner{border-radius:14px;padding:20px 22px;margin-bottom:24px;display:flex;gap:16px;align-items:flex-start}
+.banner.ai{background:linear-gradient(135deg,rgba(255,107,43,.06) 0%,rgba(79,122,255,.04) 100%);border:1px solid rgba(255,107,43,.2)}
+.bicon{font-size:24px;flex-shrink:0}
+.btitle{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--ai)}
+.bdesc{font-size:13px;color:var(--t2);line-height:1.6}
+.btags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btag{padding:2px 9px;border-radius:20px;font-size:11px;border:1px solid var(--aibd);color:var(--ai);background:var(--aibg)}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tag{padding:3px 10px;border-radius:20px;font-size:12px;border:1px solid}
+.tag.g{color:var(--g);border-color:var(--gbd);background:var(--gbg)}
+.tag.ai{color:var(--ai);border-color:var(--aibd);background:var(--aibg)}
+.tag.pu{color:var(--pu);border-color:var(--pbd);background:var(--pbg)}
+
+/* TABLE */
+.table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:24px}
+.table th{text-align:right;padding:10px 14px;font-size:12px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--bd)}
+.table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:rgba(255,255,255,.018)}
+
+/* FOOTER */
+footer{padding:38px 0;border-top:1px solid var(--bd)}
+.fi2{display:flex;justify-content:space-between;align-items:center;color:var(--t3);font-size:13px;flex-wrap:wrap;gap:12px}
+.fbrand{font-size:15px;font-weight:700;color:var(--t2)}
+.ftag{background:var(--aibg);color:var(--ai);border:1px solid var(--aibd);border-radius:20px;padding:3px 11px;font-size:12px}
+
+@media(max-width:900px){
+  h1{font-size:32px}
+  .sg4,.fg3{grid-template-columns:1fr 1fr}
+  .nl{display:none}
+}
+@media(max-width:600px){
+  .sg4,.sg3,.fg3,.fg2{grid-template-columns:1fr}
+  .tli{grid-template-columns:1fr}
+  .tldot,.tl::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="ni">
+    <div class="logo"><div class="dot"></div>خطة تكامل الذكاء الاصطناعي</div>
+    <ul class="nl">
+      <li><a href="#overview">نظرة عامة</a></li>
+      <li><a href="#architecture">البنية المعمارية</a></li>
+      <li><a href="#usecases">حالات الاستخدام</a></li>
+      <li><a href="#timeline">الخطة الزمنية</a></li>
+      <li><a href="#pricing">التسعير</a></li>
+      <li><a href="#security">الأمان</a></li>
+    </ul>
+    <div class="nbadges">
+      <span class="nb g">85% جاهز</span>
+      <span class="nb ai">AI-Ready</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="overview">
+  <div class="w">
+    <div class="hbadge">
+      <div style="width:6px;height:6px;background:var(--ai);border-radius:50%;animation:pulse 2s ease-in-out infinite"></div>
+      استراتيجية شاملة — 21 مارس 2026
+    </div>
+    <h1>تكامل الذكاء الاصطناعي<br>مع منصة SaaS Core</h1>
+    <p class="herop">خطة تنفيذية متكاملة لتحويل المنصة إلى نظام SaaS مدعوم بالذكاء الاصطناعي، مع دعم كامل للغة العربية، ونظام RAG متقدم، وتحكم كامل في التكاليف.</p>
+    <div class="hmeta">
+      <div class="hm"><div class="lb">الجاهزية الحالية</div><div class="vl g">85%</div></div>
+      <div class="hm"><div class="lb">الوحدات المخططة</div><div class="vl ai">7</div></div>
+      <div class="hm"><div class="lb">النماذج المدعومة</div><div class="vl pu">4+</div></div>
+      <div class="hm"><div class="lb">وقت التنفيذ</div><div class="vl tl">20 أسبوع</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTERS -->
+<div class="w" style="padding-bottom:48px">
+  <div class="sg4">
+    <div class="scard"><div class="snum ai">4</div><div class="slbl">حالات استخدام رئيسية</div></div>
+    <div class="scard"><div class="snum g">60%</div><div class="slbl">تخفيض تذاكر الدعم</div></div>
+    <div class="scard"><div class="snum pu">95%</div><div class="slbl">هامش ربح متوقع</div></div>
+    <div class="scard"><div class="snum tl">Q2 2026</div><div class="slbl">بداية التنفيذ</div></div>
+  </div>
+
+  <div class="banner ai">
+    <div class="bicon">🚀</div>
+    <div>
+      <div class="btitle">🎯 الرؤية الاستراتيجية</div>
+      <div class="bdesc">تحويل SaaS Core إلى منصة رائدة في المنطقة مدعومة بالذكاء الاصطناعي، تقدم مساعدة ذكية 24/7، وتحليلات تنبؤية، وإنشاء محتوى تلقائي، مع الحفاظ على هوامش ربح عالية من خلال إدارة ذكية للتكاليف.</div>
+      <div class="btags">
+        <span class="btag">دعم فني آلي 60%</span>
+        <span class="btag">تحليلات تنبؤية</span>
+        <span class="btag">محتوى تلقائي</span>
+        <span class="btag">RAG متقدم</span>
+        <span class="btag">تعريب كامل</span>
+        <span class="btag">تحكم في التكلفة</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<section class="sec" id="architecture">
+  <div class="w">
+    <div class="sh">
+      <div class="si ai">🏗️</div>
+      <div>
+        <div class="sl ai">البنية المعمارية</div>
+        <div class="sh2">نظام AI متكامل الطبقات</div>
+        <div class="sd">تصميم معياري قابل للتوسع مع عزل كامل للبيانات</div>
+      </div>
+    </div>
+
+    <div class="arch">
+      <div class="arch-layer">☁️ Cloudflare Edge — DNS + SSL + DDoS Protection</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">🔒 Next.js Middleware — Tenant Resolution + AI Rate Limiting</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">📱 Application Layer — Tenant Dashboard | Admin Panel | AI Routes</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">🤖 AI Service Layer — Gateway | Prompt Manager | Vector Store | Cost Tracker</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">🧠 AI Models — Claude | GPT-4 | Gemini | Msaed (Arabic)</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">💾 Data Layer — Supabase (RLS) | pgvector | Upstash Cache</div>
+    </div>
+
+    <div class="fg3" style="margin-top:32px">
+      <div class="fc ai-card">
+        <span class="fbdg ai">أساسي</span>
+        <div class="ficon">🎯</div>
+        <h3>AI Gateway</h3>
+        <div class="fcsub">توجيه ذكي لطلبات AI</div>
+        <div class="flist">
+          <div class="fi">اختيار النموذج الأمثل</div>
+          <div class="fi">فحص الحصص والحدود</div>
+          <div class="fi">معالجة Prompts</div>
+          <div class="fi">Fallback استراتيجي</div>
+          <div class="fi">تتبع التكلفة</div>
+        </div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">متقدم</span>
+        <div class="ficon">📚</div>
+        <h3>Prompt Manager</h3>
+        <div class="fcsub">مكتبة قوالب ذكية</div>
+        <div class="flist">
+          <div class="fi">قوالب جاهزة بالعربي</div>
+          <div class="fi">دعم فني، محتوى، تحليلات</div>
+          <div class="fi">متغيرات ديناميكية</div>
+          <div class="fi">تحسين مستمر</div>
+          <div class="fi">A/B Testing</div>
+        </div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">متقدم</span>
+        <div class="ficon">🔍</div>
+        <h3>Vector Store (RAG)</h3>
+        <div class="fcsub">استرجاع المعرفة</div>
+        <div class="flist">
+          <div class="fi">pgvector في Supabase</div>
+          <div class="fi">1,536 dimensions</div>
+          <div class="fi">بحث تشابهي سريع</div>
+          <div class="fi">عزل كامل للبيانات</div>
+          <div class="fi">Knowledge Base لكل Tenant</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="sec" id="usecases">
+  <div class="w">
+    <div class="sh">
+      <div class="si g">💡</div>
+      <div>
+        <div class="sl g">حالات الاستخدام</div>
+        <div class="sh2">4 تطبيقات رئيسية</div>
+        <div class="sd">كل حالة مصممة لتحقيق أقصى قيمة بأقل تعقيد</div>
+      </div>
+    </div>
+
+    <div class="fg2">
+      <div class="fc ai-card">
+        <span class="fbdg ai">الأولوية 1</span>
+        <div class="ficon">💬</div>
+        <h3>AI Support Agent</h3>
+        <div class="fcsub">مساعد دعم فني ذكي 24/7</div>
+        <div class="flist">
+          <div class="fi">دردشة فورية بالعربي والإنجليزي</div>
+          <div class="fi">إجابات من Knowledge Base</div>
+          <div class="fi">تصعيد تلقائي للدعم البشري</div>
+          <div class="fi">تحليل مشاعر العميل</div>
+          <div class="fi">تخفيض 60% من التذاكر</div>
+        </div>
+        <div class="tags">
+          <span class="tag ai">RAG</span>
+          <span class="tag ai">Claude</span>
+          <span class="tag g">6 أسابيع</span>
+        </div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">الأولوية 1</span>
+        <div class="ficon">📊</div>
+        <h3>Intelligent Analytics</h3>
+        <div class="fcsub">تحليلات تنبؤية للأعمال</div>
+        <div class="flist">
+          <div class="fi">تحليل اتجاهات المبيعات</div>
+          <div class="fi">تنبؤ بالمبيعات المستقبلية</div>
+          <div class="fi">اكتشاف شذوذ في البيانات</div>
+          <div class="fi">توصيات لزيادة الإيرادات</div>
+          <div class="fi">تقارير نصية تلقائية</div>
+        </div>
+        <div class="tags">
+          <span class="tag ai">GPT-4</span>
+          <span class="tag ai">Forecasting</span>
+          <span class="tag g">8 أسابيع</span>
+        </div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">الأولوية 2</span>
+        <div class="ficon">✍️</div>
+        <h3>Content Generator</h3>
+        <div class="fcsub">إنشاء محتوى تلقائي</div>
+        <div class="flist">
+          <div class="fi">وصف منتجات SEO-optimized</div>
+          <div class="fi">مقالات مدونة احترافية</div>
+          <div class="fi">منشورات تواصل اجتماعي</div>
+          <div class="fi">رسائل بريد تسويقية</div>
+          <div class="fi">دعم متعدد اللغات</div>
+        </div>
+        <div class="tags">
+          <span class="tag ai">Claude</span>
+          <span class="tag ai">Gemini</span>
+          <span class="tag g">6 أسابيع</span>
+        </div>
+      </div>
+
+      <div class="fc ai-card">
+        <span class="fbdg ai">الأولوية 2</span>
+        <div class="ficon">🔮</div>
+        <h3>Predictive Insights</h3>
+        <div class="fcsub">رؤى تنبؤية للعملاء</div>
+        <div class="flist">
+          <div class="fi">تنبؤ باحتمالية ترك العميل</div>
+          <div class="fi">تحديد العملاء الأكثر قيمة</div>
+          <div class="fi">توصيات منتجات مخصصة</div>
+          <div class="fi">اكتشاف فرص البيع الإضافي</div>
+          <div class="fi">تحسين retention 25%</div>
+        </div>
+        <div class="tags">
+          <span class="tag ai">ML Models</span>
+          <span class="tag ai">Analytics</span>
+          <span class="tag g">8 أسابيع</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="sec" id="timeline">
+  <div class="w">
+    <div class="sh">
+      <div class="si pu">📅</div>
+      <div>
+        <div class="sl pu">الخطة الزمنية</div>
+        <div class="sh2">20 أسبوع للتنفيذ الكامل</div>
+        <div class="sd">3 مراحل متتالية مع تسليمات واضحة</div>
+      </div>
+    </div>
+
+    <div class="tl">
+      <div class="tli now">
+        <div class="tlc">
+          <div class="tlt">Q2 2026 — 6 أسابيع</div>
+          <h3 class="tlh">المرحلة 1: البنية الأساسية</h3>
+          <p class="tldesc">تأسيس النظام الأساسي وبدء بأعلى قيمة</p>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi todo"></div><span class="tt">تثبيت الحزم وتفعيل pgvector</span></div>
+            <div class="tsk"><div class="tsi todo"></div><span class="tt">إنشاء جداول AI وقواعد البيانات</span></div>
+            <div class="tsk"><div class="tsi todo"></div><span class="tt">بناء AI Gateway و Cost Tracker</span></div>
+            <div class="tsk"><div class="tsi todo"></div><span class="tt">تطوير AI Support Agent مع RAG</span></div>
+            <div class="tsk"><div class="tsi todo"></div><span class="tt">بناء AI Dashboard للإحصاءات</span></div>
+          </div>
+        </div>
+        <div class="tldot ai">🚀</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">Q3 2026 — 8 أسابيع</div>
+          <h3 class="tlh">المرحلة 2: الميزات المتقدمة</h3>
+          <p class="tldesc">توسيع القدرات بخصائص ذكية متقدمة</p>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">تحليلات تنبؤية للمبيعات</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">إنشاء محتوى تلقائي</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">رؤى تنبؤية للعملاء</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">تكامل مع WhatsApp/Snap</span></div>
+          </div>
+        </div>
+        <div class="tldot">📈</div>
+      </div>
+
+      <div class="tli">
+        <div class="tlc">
+          <div class="tlt">Q4 2026 — 6 أسابيع</div>
+          <h3 class="tlh">المرحلة 3: التحسين والتوسع</h3>
+          <p class="tldesc">تحسين الأداء والاستعداد للتوسع</p>
+          <div class="tsks">
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">تحسين Caching وتقليل التكلفة</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">Model Fallback Strategies</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">Voice Agents</span></div>
+            <div class="tsk"><div class="tsi opt"></div><span class="tt">Image Generation</span></div>
+          </div>
+        </div>
+        <div class="tldot">⚡</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec" id="pricing">
+  <div class="w">
+    <div class="sh">
+      <div class="si tl">💰</div>
+      <div>
+        <div class="sl tl">نموذج التسعير</div>
+        <div class="sh2">هوامش ربح عالية مع تحكم في التكلفة</div>
+        <div class="sd">نظام Credits مرن يضمن ربحية مستدامة</div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>الخطة</th>
+          <th>Tokens شهرياً</th>
+          <th>القيمة</th>
+          <th>التكلفة الفعلية</th>
+          <th>الهامش</th>
+          <th>الميزات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Basic</strong></td>
+          <td>50,000</td>
+          <td>$10</td>
+          <td>$0.45</td>
+          <td style="color:var(--g)">95.5%</td>
+          <td>Support Chat فقط</td>
+        </tr>
+        <tr>
+          <td><strong>Professional</strong></td>
+          <td>500,000</td>
+          <td>$100</td>
+          <td>$4.50</td>
+          <td style="color:var(--g)">95.5%</td>
+          <td>كل ميزات AI</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise</strong></td>
+          <td>5,000,000</td>
+          <td>$1,000</td>
+          <td>$45.00</td>
+          <td style="color:var(--g)">95.5%</td>
+          <td>نماذج مخصصة</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="banner" style="background:var(--sf);border-color:var(--bd)">
+      <div class="bicon">📊</div>
+      <div>
+        <div class="btitle" style="color:var(--t)">مثال عملي: عميل Professional</div>
+        <div class="bdesc">
+          <strong>الاستخدام:</strong> 1,000 محادثة دعم شهرياً × 500 tokens = 500,000 tokens<br>
+          <strong>التكلفة:</strong> $4.50 (Claude Sonnet)<br>
+          <strong>السعر:</strong> $100 (مضمن في الخطة)<br>
+          <strong>الربح:</strong> $95.50 (هامش 95.5%)<br><br>
+          حتى مع استخدام مكثف (1M tokens): التكلفة $9.00، الهامش 91%
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="sec" id="security">
+  <div class="w">
+    <div class="sh">
+      <div class="si g">🔐</div>
+      <div>
+        <div class="sl g">الأمان والامتثال</div>
+        <div class="sh2">حماية شاملة للبيانات</div>
+        <div class="sd">نظام أمان متعدد الطبقات يضمن العزل والخصوصية</div>
+      </div>
+    </div>
+
+    <div class="fg3">
+      <div class="fc">
+        <div class="ficon">🛡️</div>
+        <h3>عزل البيانات</h3>
+        <div class="flist">
+          <div class="fi">RLS على جميع الجداول</div>
+          <div class="fi">عزل كامل بين Tenants</div>
+          <div class="fi">Embeddings مشفرة</div>
+          <div class="fi">لا مشاركة بيانات بين عملاء</div>
+        </div>
+      </div>
+
+      <div class="fc">
+        <div class="ficon">🔒</div>
+        <h3>أمان Prompts</h3>
+        <div class="flist">
+          <div class="fi">Input Validation</div>
+          <div class="fi">Prompt Injection Prevention</div>
+          <div class="fi">Output Filtering</div>
+          <div class="fi">Safety Checks</div>
+        </div>
+      </div>
+
+      <div class="fc">
+        <div class="ficon">📋</div>
+        <h3>الامتثال</h3>
+        <div class="flist">
+          <div class="fi">GDPR Data Export/Delete</div>
+          <div class="fi">Audit Logs لجميع العمليات</div>
+          <div class="fi">Data Residency (MEA)</div>
+          <div class="fi">No Training on Customer Data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="w">
+    <div class="fi2">
+      <div class="fbrand">SaaS Core — AI Integration Strategy</div>
+      <div class="tags">
+        <span class="tag g">جاهز للتنفيذ</span>
+        <span class="tag ai">AI-Powered</span>
+        <span class="tag tl">2026 Q2</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--t3);font-size:12px;margin-top:16px">
+      تم إعداد هذه الاستراتيجية بواسطة: AI Integration Team • 21 مارس 2026
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
