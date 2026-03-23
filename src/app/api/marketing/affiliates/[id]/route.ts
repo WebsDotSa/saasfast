@@ -24,15 +24,15 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -40,7 +40,7 @@ export async function GET(
     }
 
     const { id } = await context.params;
-    const affiliate = await affiliates.getAffiliateById(id, tenantId);
+    const affiliate = await affiliates.getAffiliateById(id, tenant.id);
 
     if (!affiliate) {
       return NextResponse.json(
@@ -76,15 +76,15 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -94,7 +94,7 @@ export async function PATCH(
     const { id } = await context.params;
     const body = await request.json();
 
-    const affiliate = await affiliates.updateAffiliate(id, tenantId, {
+    const affiliate = await affiliates.updateAffiliate(id, tenant.id, {
       name: body.name,
       email: body.email,
       phone: body.phone,
@@ -144,15 +144,15 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -160,7 +160,7 @@ export async function DELETE(
     }
 
     const { id } = await context.params;
-    const deleted = await affiliates.deleteAffiliate(id, tenantId);
+    const deleted = await affiliates.deleteAffiliate(id, tenant.id);
 
     if (!deleted) {
       return NextResponse.json(

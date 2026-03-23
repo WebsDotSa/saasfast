@@ -177,19 +177,19 @@ export async function listCampaigns(
       conditions.push(eq(marketingCampaigns.channel, options.channel));
     }
 
-    const [campaignList, total] = await Promise.all([
+    const [campaignList, totalResult] = await Promise.all([
       db.query.marketingCampaigns.findMany({
         where: and(...conditions),
         orderBy: [desc(marketingCampaigns.createdAt)],
         limit: options?.limit || 100,
         offset: options?.offset || 0,
       }),
-      db.$count(marketingCampaigns, and(...conditions)),
+      db.select({ count: marketingCampaigns.id }).from(marketingCampaigns).where(and(...conditions)),
     ]);
 
     return {
       campaigns: campaignList as unknown as Campaign[],
-      total,
+      total: totalResult.length,
     };
 
   } catch (error) {

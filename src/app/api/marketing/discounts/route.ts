@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // List discounts
-    const result = await discounts.listDiscounts(tenantId, {
+    const result = await discounts.listDiscounts(tenant.id, {
       isActive: isActive ? isActive === 'true' : undefined,
       discountType: discountType || undefined,
       limit,
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -87,8 +87,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
 
     // Create discount input
     const input: CreateDiscountInput = {
-      tenantId,
+      tenantId: tenant.id,
       discountType: body.discountType,
       applyingMethod: body.applyingMethod,
       nameAr: body.nameAr,

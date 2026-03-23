@@ -16,10 +16,10 @@ export async function POST(request: NextRequest) {
   try {
     // Check authentication (optional for cart checkout)
     const session = await getServerSession(authOptions);
-    
+
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     // Validate coupon
     const result = await discounts.validateCoupon(
       body.code.toUpperCase(),
-      tenantId,
+      tenant.id,
       orderContext
     );
 

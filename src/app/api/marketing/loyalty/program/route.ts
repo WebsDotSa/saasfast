@@ -16,22 +16,22 @@ import { getTenantFromRequest } from '@/lib/tenant';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
       );
     }
 
-    const program = await loyalty.getOrCreateLoyaltyProgram(tenantId);
+    const program = await loyalty.getOrCreateLoyaltyProgram(tenant.id);
 
     return NextResponse.json({
       success: true,
@@ -57,15 +57,15 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -74,7 +74,7 @@ export async function PATCH(request: NextRequest) {
 
     const body = await request.json();
 
-    const program = await loyalty.updateLoyaltyProgram(tenantId, {
+    const program = await loyalty.updateLoyaltyProgram(tenant.id, {
       nameAr: body.nameAr,
       nameEn: body.nameEn,
       descriptionAr: body.descriptionAr,

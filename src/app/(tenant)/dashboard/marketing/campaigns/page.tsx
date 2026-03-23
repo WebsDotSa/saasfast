@@ -80,8 +80,7 @@ export default function CampaignsListPage() {
       whatsapp: Send,
       push: Send,
     };
-    const Icon = icons[channel] || Mail;
-    return <Icon className="w-4 h-4" />;
+    return icons[channel] || Mail;
   };
 
   return (

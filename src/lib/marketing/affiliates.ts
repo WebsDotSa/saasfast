@@ -12,7 +12,7 @@ import {
   affiliatePayouts,
   affiliateBanners,
 } from '@/lib/db/schema';
-import { eq, and, isNull, desc, or, sum } from 'drizzle-orm';
+import { eq, and, isNull, desc, or, sum, sql } from 'drizzle-orm';
 
 // ───────────────────────────────────────────────────────────────────────────────
 // Types
@@ -158,7 +158,7 @@ export async function createAffiliate(input: {
     const referralLink = `https://store.saasfast.com/?ref=${referralCode}`;
 
     const [affiliate] = await db.insert(affiliates).values({
-      tenantId: input.tenantId,
+      tenant_id: input.tenantId,
       name: input.name,
       email: input.email,
       phone: input.phone,
@@ -170,7 +170,7 @@ export async function createAffiliate(input: {
       payoutMethod: input.payoutMethod,
       payoutDetails: {},
       minPayoutAmount: 100,
-    }).returning();
+    } as any).returning();
 
     return affiliate as unknown as Affiliate;
 
@@ -250,19 +250,19 @@ export async function listAffiliates(
       conditions.push(eq(affiliates.status, options.status));
     }
 
-    const [affiliateList, total] = await Promise.all([
+    const [affiliateList, totalResult] = await Promise.all([
       db.query.affiliates.findMany({
         where: and(...conditions),
         orderBy: [desc(affiliates.createdAt)],
         limit: options?.limit || 100,
         offset: options?.offset || 0,
       }),
-      db.$count(affiliates, and(...conditions)),
+      db.select({ count: affiliates.id }).from(affiliates).where(and(...conditions)),
     ]);
 
     return {
       affiliates: affiliateList as unknown as Affiliate[],
-      total,
+      total: totalResult.length,
     };
 
   } catch (error) {
@@ -287,14 +287,14 @@ export async function updateAffiliate(
         phone: input.phone,
         companyName: input.companyName,
         taxNumber: input.taxNumber,
-        commissionRate: input.commissionRate,
+        commissionRate: input.commissionRate?.toString(),
         commissionType: input.commissionType,
-        commissionValue: input.commissionValue,
+        commissionValue: input.commissionValue?.toString(),
         tieredCommission: input.tieredCommission,
         status: input.status,
         payoutMethod: input.payoutMethod,
         payoutDetails: input.payoutDetails,
-        minPayoutAmount: input.minPayoutAmount,
+        minPayoutAmount: input.minPayoutAmount?.toString(),
         adminNotes: input.adminNotes,
         rejectionReason: input.rejectionReason,
         approvedAt: input.approvedAt,
@@ -343,8 +343,6 @@ export async function rejectAffiliate(
   return updateAffiliate(id, tenantId, {
     status: 'rejected',
     rejectionReason: reason,
-    rejectedAt: new Date(),
-    rejectedBy,
   });
 }
 
@@ -424,7 +422,7 @@ export async function trackAffiliateClick(
     // Update affiliate total clicks
     await db.update(affiliates)
       .set({
-        totalClicks: affiliates.totalClicks + 1,
+        totalClicks: sql`${affiliates.totalClicks} + 1`,
         updatedAt: new Date(),
       })
       .where(eq(affiliates.id, affiliateId));
@@ -478,24 +476,24 @@ export async function trackAffiliateConversion(
 
     // Create conversion
     const [conversion] = await db.insert(affiliateConversions).values({
-      tenantId,
-      affiliateId,
+      tenant_id: tenantId,
+      affiliate_id: affiliateId,
       orderId: data.orderId,
-      orderAmount: data.orderAmount,
+      orderAmount: data.orderAmount.toString(),
       customerId: data.customerId,
       customerEmail: data.customerEmail,
-      commissionAmount: commission,
+      commissionAmount: commission.toString(),
       commissionRate: affiliate.commissionRate,
       status: 'pending',
       clickedAt: data.clickedAt,
-    }).returning();
+    } as any).returning();
 
     // Update affiliate stats
     await db.update(affiliates)
       .set({
-        totalConversions: affiliates.totalConversions + 1,
-        totalSales: affiliates.totalSales + data.orderAmount,
-        pendingPayout: affiliates.pendingPayout + commission,
+        totalConversions: sql`${affiliates.totalConversions} + 1`,
+        totalSales: sql`${affiliates.totalSales} + ${data.orderAmount}`,
+        pendingPayout: sql`${affiliates.pendingPayout} + ${commission}`,
         updatedAt: new Date(),
       })
       .where(eq(affiliates.id, affiliateId));
@@ -584,8 +582,8 @@ export async function approveConversion(
     // Update affiliate pending payout
     await db.update(affiliates)
       .set({
-        pendingPayout: affiliates.pendingPayout - conversion.commissionAmount,
-        totalEarned: affiliates.totalEarned + conversion.commissionAmount,
+        pendingPayout: sql`${affiliates.pendingPayout} - ${conversion.commissionAmount}`,
+        totalEarned: sql`${affiliates.totalEarned} + ${conversion.commissionAmount}`,
         updatedAt: new Date(),
       })
       .where(eq(affiliates.id, conversion.affiliateId));
@@ -624,15 +622,15 @@ export async function createPayoutRequest(
     periodStart.setMonth(periodStart.getMonth() - 1);
 
     const [payout] = await db.insert(affiliatePayouts).values({
-      tenantId,
-      affiliateId,
-      amount: affiliate.pendingPayout,
+      tenant_id: tenantId,
+      affiliate_id: affiliateId,
+      amount: affiliate.pendingPayout.toString(),
       periodStart,
       periodEnd,
       status: 'pending',
       payoutMethod: affiliate.payoutMethod || 'bank_transfer',
       bankDetails: affiliate.payoutDetails,
-    }).returning();
+    } as any).returning();
 
     return payout as unknown as AffiliatePayout;
 

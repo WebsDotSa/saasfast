@@ -1,11 +1,37 @@
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
+import { NextRequest } from 'next/server';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Tenant Helpers — Utility Functions
 // ═══════════════════════════════════════════════════════════════════════════════
 // دوال مساعدة للتعامل مع Tenant Context
 // ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * الحصول على Tenant من Request
+ * يُستخدم في API Routes (App Router)
+ */
+export async function getTenantFromRequest(request: NextRequest): Promise<TenantContext | null> {
+  const tenantId = request.headers.get('x-tenant-id');
+
+  if (!tenantId) {
+    return null;
+  }
+
+  return {
+    id: tenantId,
+    slug: request.headers.get('x-tenant-slug') || '',
+    name_ar: request.headers.get('x-tenant-name') || '',
+    status: request.headers.get('x-tenant-status') || 'trial',
+    modules: (request.headers.get('x-tenant-modules') || '').split(',').filter(Boolean),
+    plan_name: request.headers.get('x-tenant-plan') || undefined,
+    custom_domain: undefined,
+    settings: {
+      primary_color: request.headers.get('x-tenant-primary-color') || '#6c63ff',
+    },
+  };
+}
 
 export interface TenantContext {
   id: string;

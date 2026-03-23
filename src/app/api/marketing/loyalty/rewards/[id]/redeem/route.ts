@@ -22,15 +22,15 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -48,7 +48,7 @@ export async function POST(
       );
     }
 
-    const result = await loyalty.redeemReward(tenantId, customerId, id);
+    const result = await loyalty.redeemReward(tenant.id, customerId, id);
 
     if (result.success) {
       return NextResponse.json({

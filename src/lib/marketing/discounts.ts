@@ -196,7 +196,7 @@ export async function validateCoupon(
     }
 
     // 5. Validate minimum order amount
-    if (discount.minOrderAmount && orderContext.subtotal < discount.minOrderAmount) {
+    if (discount.minOrderAmount && orderContext.subtotal < Number(discount.minOrderAmount)) {
       errors.push(`الحد الأدنى للطلب هو ${discount.minOrderAmount} ريال لتطبيق هذا الخصم`);
     }
 
@@ -253,7 +253,7 @@ export async function validateCoupon(
     }
 
     // 10. Calculate savings
-    const savings = calculateDiscountSavings(discount, orderContext);
+    const savings = calculateDiscountSavings(discount as Discount, orderContext);
 
     // 11. Apply max discount cap if set
     let finalSavings = savings;

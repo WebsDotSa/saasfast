@@ -4,6 +4,10 @@
 // ميزات الذكاء الاصطناعي للتسويق - كتابة الحملات، اقتراح الخصومات، تقسيم الجمهور
 // ═══════════════════════════════════════════════════════════════════════════════
 
+import { generateObject } from 'ai';
+import { anthropic } from '@ai-sdk/anthropic';
+import { z } from 'zod';
+
 // Anthropic/Qwen AI API Configuration
 const AI_CONFIG = {
   authToken: process.env.ANTHROPIC_AUTH_TOKEN || '',
@@ -37,6 +41,15 @@ export interface CampaignMessageOutput {
   character_count: number;
 }
 
+const CampaignMessageSchema = z.object({
+  message_ar: z.string(),
+  message_en: z.string().optional(),
+  subject_line: z.string().optional(),
+  call_to_action: z.string(),
+  estimated_length: z.number(),
+  character_count: z.number(),
+});
+
 export interface DiscountSuggestionInput {
   productName: string;
   productPrice: number;
@@ -64,6 +77,20 @@ export interface DiscountSuggestionOutput {
   best_time_to_apply: string;
   duration_recommendation: string;
 }
+
+const DiscountSuggestionSchema = z.object({
+  suggested_rate: z.number(),
+  suggested_amount: z.number().optional(),
+  reasoning: z.string(),
+  expected_impact: z.object({
+    conversion_lift: z.number(),
+    revenue_impact: z.number(),
+    margin_impact: z.number(),
+  }),
+  alternative_rates: z.array(z.number()),
+  best_time_to_apply: z.string(),
+  duration_recommendation: z.string(),
+});
 
 export interface AudienceSuggestionInput {
   campaignGoal: 'promotion' | 'retention' | 're_engagement' | 'welcome';
@@ -98,6 +125,38 @@ export interface AudienceSuggestionOutput {
   };
 }
 
+const AudienceSuggestionSchema = z.object({
+  segment_name: z.string(),
+  segment_name_ar: z.string(),
+  criteria: z.object({
+    last_purchase_days: z.number().optional(),
+    min_orders: z.number().optional(),
+    min_spent: z.number().optional(),
+    max_spent: z.number().optional(),
+    age_range: z.string().optional(),
+    location: z.array(z.string()).optional(),
+  }),
+  estimated_size: z.number(),
+  estimated_conversion_rate: z.number(),
+  messaging_recommendations: z.string(),
+  channel_recommendation: z.enum(['email', 'sms', 'whatsapp', 'mixed']),
+  budget_allocation: z.object({
+    email: z.number().optional(),
+    sms: z.number().optional(),
+    whatsapp: z.number().optional(),
+  }),
+});
+
+const ProductDescriptionSchema = z.object({
+  description_ar: z.string(),
+  description_en: z.string(),
+  short_description: z.string(),
+});
+
+const EmailSubjectSchema = z.object({
+  subject_lines: z.array(z.string()),
+});
+
 // ───────────────────────────────────────────────────────────────────────────────
 // AI Campaign Message Generator
 // ───────────────────────────────────────────────────────────────────────────────
@@ -111,14 +170,7 @@ export async function generateCampaignMessage(
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object {
-        message_ar: string,
-        message_en?: string,
-        subject_line?: string,
-        call_to_action: string,
-        estimated_length: number,
-        character_count: number
-      }`,
+      schema: CampaignMessageSchema,
       prompt: `
 اكتب رسالة تسويقية مقنعة لحملة ${input.channel}.
 
@@ -191,19 +243,7 @@ export async function suggestDiscountRate(
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object {
-        suggested_rate: number,
-        suggested_amount?: number,
-        reasoning: string,
-        expected_impact: {
-          conversion_lift: number,
-          revenue_impact: number,
-          margin_impact: number
-        },
-        alternative_rates: number[],
-        best_time_to_apply: string,
-        duration_recommendation: string
-      }`,
+      schema: DiscountSuggestionSchema,
       prompt: `
 اقترح نسبة خصم مثالية لمنتج بناءً على البيانات التالية:
 
@@ -218,8 +258,8 @@ ${input.season ? `الموسم: ${input.season}` : ''}
 - مبيعات الأسبوع الماضي: ${input.salesData.lastWeekSales}
 - مبيعات الشهر الماضي: ${input.salesData.lastMonthSales}
 
-${input.competitorPrices && input.competitorPrices.length > 0 
-  ? `أسعار المنافسين: ${input.competitorPrices.join(', ')} ريال` 
+${input.competitorPrices && input.competitorPrices.length > 0
+  ? `أسعار المنافسين: ${input.competitorPrices.join(', ')} ريال`
   : ''}
 
 خذ في الاعتبار:
@@ -269,10 +309,15 @@ export async function suggestSegmentDiscount(
     regular: 'تشجيع العملاء العاديين على زيادة الشراء',
   };
 
+  const SegmentDiscountSchema = z.object({
+    rate: z.number(),
+    reasoning: z.string(),
+  });
+
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object { rate: number, reasoning: string }`,
+      schema: SegmentDiscountSchema,
       prompt: `
 اقترح نسبة خصم مثالية لـ ${segmentStrategies[segment]}.
 
@@ -310,27 +355,7 @@ export async function suggestAudience(
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object {
-        segment_name: string,
-        segment_name_ar: string,
-        criteria: {
-          last_purchase_days?: number,
-          min_orders?: number,
-          min_spent?: number,
-          max_spent?: number,
-          age_range?: string,
-          location?: string[]
-        },
-        estimated_size: number,
-        estimated_conversion_rate: number,
-        messaging_recommendations: string,
-        channel_recommendation: 'email' | 'sms' | 'whatsapp' | 'mixed',
-        budget_allocation: {
-          email?: number,
-          sms?: number,
-          whatsapp?: number
-        }
-      }`,
+      schema: AudienceSuggestionSchema,
       prompt: `
 حدد أفضل شريحة عملاء لحملة تسويقية:
 
@@ -392,11 +417,7 @@ export async function generateProductDescription(
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object {
-        description_ar: string,
-        description_en: string,
-        short_description: string
-      }`,
+      schema: ProductDescriptionSchema,
       prompt: `
 اكتب وصف تسويقي لمنتج:
 
@@ -443,7 +464,7 @@ export async function generateEmailSubjectLines(
   try {
     const { object } = await generateObject({
       model: anthropic('claude-sonnet-4-20250514'),
-      schema: `object { subject_lines: string[] }`,
+      schema: EmailSubjectSchema,
       prompt: `
 أنشئ ${count} عناوين إيميل جذابة عن: ${topic}
 
@@ -461,7 +482,7 @@ export async function generateEmailSubjectLines(
       maxTokens: 400,
     });
 
-    return (object as any).subject_lines || [];
+    return object.subject_lines || [];
 
   } catch (error) {
     console.error('[AI] Error generating email subject lines:', error);

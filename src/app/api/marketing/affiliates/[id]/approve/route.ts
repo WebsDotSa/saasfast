@@ -22,15 +22,15 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -38,9 +38,9 @@ export async function POST(
     }
 
     const { id } = await context.params;
-    const approvedBy = session.user.id;
+    const approvedBy = (session.user as any).id || session.user.email;
 
-    const affiliate = await affiliates.approveAffiliate(id, tenantId, approvedBy);
+    const affiliate = await affiliates.approveAffiliate(id, tenant.id, approvedBy);
 
     if (!affiliate) {
       return NextResponse.json(

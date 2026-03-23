@@ -25,7 +25,7 @@ export async function GET(
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -33,8 +33,8 @@ export async function GET(
     }
 
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -52,7 +52,7 @@ export async function GET(
     }
 
     // Get discount
-    const discount = await discounts.getDiscountById(id, tenantId);
+    const discount = await discounts.getDiscountById(id, tenant.id);
 
     if (!discount) {
       return NextResponse.json(
@@ -89,7 +89,7 @@ export async function PATCH(
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -97,8 +97,8 @@ export async function PATCH(
     }
 
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -116,7 +116,7 @@ export async function PATCH(
     }
 
     // Check if discount exists
-    const existingDiscount = await discounts.getDiscountById(id, tenantId);
+    const existingDiscount = await discounts.getDiscountById(id, tenant.id);
     if (!existingDiscount) {
       return NextResponse.json(
         { error: 'Discount not found' },
@@ -238,7 +238,7 @@ export async function PATCH(
     }
 
     // Update discount
-    const updatedDiscount = await discounts.updateDiscount(id, tenantId, updateInput);
+    const updatedDiscount = await discounts.updateDiscount(id, tenant.id, updateInput);
 
     if (!updatedDiscount) {
       return NextResponse.json(
@@ -285,7 +285,7 @@ export async function DELETE(
   try {
     // Check authentication
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -293,8 +293,8 @@ export async function DELETE(
     }
 
     // Get tenant ID
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -312,7 +312,7 @@ export async function DELETE(
     }
 
     // Check if discount exists
-    const existingDiscount = await discounts.getDiscountById(id, tenantId);
+    const existingDiscount = await discounts.getDiscountById(id, tenant.id);
     if (!existingDiscount) {
       return NextResponse.json(
         { error: 'Discount not found' },
@@ -321,7 +321,7 @@ export async function DELETE(
     }
 
     // Soft delete discount
-    const deleted = await discounts.deleteDiscount(id, tenantId);
+    const deleted = await discounts.deleteDiscount(id, tenant.id);
 
     if (!deleted) {
       return NextResponse.json(

@@ -21,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Users, Plus, MoreVertical, Eye, CheckCircle, XCircle, Trash2, DollarSign } from 'lucide-react';
+import { Users, Plus, MoreVertical, Eye, CheckCircle, XCircle, Trash2, DollarSign, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Affiliate {

@@ -24,15 +24,15 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -47,7 +47,7 @@ export async function GET(
       );
     }
 
-    const campaign = await campaigns.getCampaignById(id, tenantId);
+    const campaign = await campaigns.getCampaignById(id, tenant.id);
 
     if (!campaign) {
       return NextResponse.json(
@@ -89,15 +89,15 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -112,7 +112,7 @@ export async function PATCH(
       );
     }
 
-    const existingCampaign = await campaigns.getCampaignById(id, tenantId);
+    const existingCampaign = await campaigns.getCampaignById(id, tenant.id);
     if (!existingCampaign) {
       return NextResponse.json(
         { error: 'Campaign not found' },
@@ -154,7 +154,7 @@ export async function PATCH(
       updateInput.scheduledAt = scheduledAt;
     }
 
-    const updatedCampaign = await campaigns.updateCampaign(id, tenantId, updateInput);
+    const updatedCampaign = await campaigns.updateCampaign(id, tenant.id, updateInput);
 
     if (!updatedCampaign) {
       return NextResponse.json(
@@ -191,15 +191,15 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -214,7 +214,7 @@ export async function DELETE(
       );
     }
 
-    const existingCampaign = await campaigns.getCampaignById(id, tenantId);
+    const existingCampaign = await campaigns.getCampaignById(id, tenant.id);
     if (!existingCampaign) {
       return NextResponse.json(
         { error: 'Campaign not found' },
@@ -222,7 +222,7 @@ export async function DELETE(
       );
     }
 
-    const deleted = await campaigns.deleteCampaign(id, tenantId);
+    const deleted = await campaigns.deleteCampaign(id, tenant.id);
 
     if (!deleted) {
       return NextResponse.json(

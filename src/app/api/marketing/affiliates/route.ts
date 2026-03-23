@@ -16,15 +16,15 @@ import { getTenantFromRequest } from '@/lib/tenant';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || undefined;
 
-    const result = await affiliates.listAffiliates(tenantId, { status });
+    const result = await affiliates.listAffiliates(tenant.id, { status });
 
     return NextResponse.json({
       success: true,
@@ -63,15 +63,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    if (!session?.user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    const tenantId = getTenantFromRequest(request);
-    if (!tenantId) {
+    const tenant = await getTenantFromRequest(request);
+    if (!tenant) {
       return NextResponse.json(
         { error: 'Tenant not found' },
         { status: 404 }
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const affiliate = await affiliates.createAffiliate({
-      tenantId,
+      tenantId: tenant.id,
       name: body.name,
       email: body.email,
       phone: body.phone,

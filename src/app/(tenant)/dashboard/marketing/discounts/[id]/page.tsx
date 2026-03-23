@@ -119,6 +119,7 @@ export default function EditDiscountPage() {
     appliesTo: 'all',
     paymentMethod: '',
     isActive: true,
+    usedCount: 0,
   });
 
   useEffect(() => {
@@ -154,6 +155,7 @@ export default function EditDiscountPage() {
           appliesTo: discount.appliesTo,
           paymentMethod: discount.paymentMethod || '',
           isActive: discount.isActive,
+          usedCount: discount.usedCount || 0,
         });
       } else {
         throw new Error('Discount not found');
